@@ -3,7 +3,7 @@
 namespace yii2lab\rest\rest;
 
 use yii\rest\Serializer as YiiSerializer;
-use woop\foundation\helpers\Helper;
+use yii2lab\helpers\Helper;
 
 class Serializer extends YiiSerializer
 {
