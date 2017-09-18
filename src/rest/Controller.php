@@ -29,7 +29,7 @@ class Controller extends YiiController
 				'class' => 'common\filters\auth\HttpTpsAuth',
 			];
 		}
-		return $behaviors;
+		return [];
 	}
 	
 	protected function getAccessRules() {
