@@ -105,7 +105,7 @@ class ActiveController extends Controller
 		if(!empty($access)) {
 			$behaviors['access'] = $access;
 			$behaviors['authenticator'] = [
-				'class' => 'common\filters\auth\HttpTpsAuth',
+				'class' => 'account\domain\filters\auth\HttpTokenAuth',
 			];
 		}
 		return $behaviors;
