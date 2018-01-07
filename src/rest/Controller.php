@@ -3,6 +3,7 @@
 namespace yii2lab\rest\rest;
 
 use yii\rest\Controller as YiiController;
+use yii2lab\helpers\Behavior;
 
 class Controller extends YiiController
 {
@@ -25,9 +26,7 @@ class Controller extends YiiController
 		$access = $this->getAccessRules();
 		if(!empty($access)) {
 			$behaviors['access'] = $access;
-			$behaviors['authenticator'] = [
-				'class' => 'account\domain\filters\auth\HttpTokenAuth',
-			];
+			$behaviors['authenticator'] = Behavior::apiAuth();
 		}
 		return [];
 	}

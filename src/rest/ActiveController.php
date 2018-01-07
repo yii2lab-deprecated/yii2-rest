@@ -5,6 +5,7 @@ namespace yii2lab\rest\rest;
 use yii\base\InvalidConfigException;
 use yii\base\Model;
 use yii\web\ForbiddenHttpException;
+use yii2lab\helpers\Behavior;
 
 class ActiveController extends Controller
 {
@@ -104,9 +105,7 @@ class ActiveController extends Controller
 		$access = $this->getAccessRules();
 		if(!empty($access)) {
 			$behaviors['access'] = $access;
-			$behaviors['authenticator'] = [
-				'class' => 'account\domain\filters\auth\HttpTokenAuth',
-			];
+			$behaviors['authenticator'] = Behavior::apiAuth();
 		}
 		return $behaviors;
 	}
