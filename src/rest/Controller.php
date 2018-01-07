@@ -2,6 +2,7 @@
 
 namespace yii2lab\rest\rest;
 
+use yii\filters\AccessControl;
 use yii\rest\Controller as YiiController;
 use yii2lab\helpers\Behavior;
 
@@ -40,7 +41,7 @@ class Controller extends YiiController
 			return false;
 		}
 		$access = [
-			'class' => 'yii\filters\AccessControl',
+			'class' => AccessControl::className(),
 			'rules' => $accessRules,
 		];
 		return $access;
