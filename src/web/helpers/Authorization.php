@@ -3,7 +3,7 @@
 namespace yii2lab\rest\web\helpers;
 
 use Yii;
-use yii2lab\test\models\Login;
+use yii2lab\helpers\yii\ArrayHelper;
 
 class Authorization
 {

@@ -5,7 +5,7 @@ namespace yii2lab\rest\web\controllers;
 use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii2lab\rest\web\helpers\ArrayHelper;
+use yii2lab\helpers\yii\ArrayHelper;
 use yii2lab\rest\web\models\RequestEvent;
 use yii2lab\rest\web\models\RequestForm;
 use yii2lab\rest\web\models\ResponseEvent;
