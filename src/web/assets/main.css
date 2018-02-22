@@ -1,0 +1,12 @@
+html,
+body {
+    height: 100%;
+}
+
+.navbar-brand {
+    background: url(yii-logo.png) 15px center no-repeat;
+    padding-left: 50px;
+}
+textarea {
+    resize: vertical;
+}
