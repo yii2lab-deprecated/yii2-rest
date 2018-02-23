@@ -3,9 +3,10 @@
 namespace yii2lab\rest\web\helpers;
 
 use common\enums\rbac\PermissionEnum;
+use yii2lab\helpers\interfaces\MenuInterface;
 use yii2lab\helpers\ModuleHelper;
 
-class Menu {
+class Menu implements MenuInterface {
 	
 	public function toArray() {
 		return [
