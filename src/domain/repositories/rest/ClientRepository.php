@@ -1,37 +1,50 @@
 <?php
 
-namespace yii2lab\core\domain\repositories\rest;
+namespace yii2lab\rest\domain\repositories\rest;
 
-use yii2lab\domain\exceptions\UnprocessableEntityHttpException;
+use yii2lab\domain\repositories\BaseRepository;
 use yii\web\ServerErrorHttpException;
-use yii2lab\domain\repositories\BaseApiRepository;
+use yii\httpclient\Client;
+use yii2lab\rest\domain\entities\RequestEntity;
+use yii\httpclient\Response;
+use yii\httpclient\Request;
 
-class ClientRepository extends BaseApiRepository {
-	
-	public function getBaseUrl() {
-		$baseUrl = env('servers.core.domain');
-		if(YII_ENV_TEST) {
-			$baseUrl .= 'index-test.php/';
-		}
-		return trim($baseUrl, SL);
-	}
-	
-	protected function showServerException($response) {
-		$exception = $response->data['type'];
-		if(YII_DEBUG) {
-			throw new $exception($response->data['message']);
-		}
-		if($exception == 'yii2woop\common\virt\exceptions\ExternalException') {
-			throw new ServerErrorHttpException(t('tps', 'ExternalException'));
-		}
-		parent::showServerException($response);
-	}
-	
-	protected function showUserException($response) {
-		$statusCode = $response->statusCode;
-		if($statusCode == 422) {
-			throw new UnprocessableEntityHttpException($response->data);
-		}
-		parent::showUserException($response);
-	}
+class ClientRepository extends BaseRepository {
+
+    /**
+     * @param RequestEntity $requestEntity
+     * @throws
+     *
+     * @return Response
+     */
+    public function send(RequestEntity $requestEntity) {
+        $request = $this->createHttpRequest($requestEntity);
+        try {
+            $response = $request->send();
+        } catch(\yii\httpclient\Exception $e) {
+            throw new ServerErrorHttpException('Url "' . $request->url . '" is not available');
+        }
+        return $response;
+    }
+
+    /**
+     * @param RequestEntity $requestEntity
+     * @throws
+     *
+     * @return Request
+     */
+    protected function createHttpRequest(RequestEntity $requestEntity) {
+        $requestEntity->validate();
+        $httpClient = new Client();
+        $request = $httpClient->createRequest();
+        $request
+            ->setOptions($requestEntity->options)
+            ->setMethod($requestEntity->method)
+            ->setUrl($requestEntity->uri)
+            ->setData($requestEntity->data)
+            ->setHeaders($requestEntity->headers)
+            ->addHeaders(['user-agent' => 'Awesome-Octocat-App']);
+        return $request;
+    }
+
 }
