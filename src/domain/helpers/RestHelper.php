@@ -2,6 +2,7 @@
 
 namespace yii2lab\rest\domain\helpers;
 
+use yii\httpclient\Response;
 use yii\web\ServerErrorHttpException;
 use yii\httpclient\Client;
 use yii2lab\rest\domain\entities\RequestEntity;
@@ -10,22 +11,22 @@ use yii2lab\rest\domain\entities\ResponseEntity;
 
 class RestHelper {
 
-    public static function get($uri, $data = [], $headers = [], $options = []) {
+    public static function get($uri, array $data = [], array $headers = [], array $options = []) {
         $method = HttpMethodEnum::GET;
         return self::runRequest(compact('uri', 'data', 'headers', 'options', 'method'));
     }
 
-    public static function post($uri, $data = [], $headers = [], $options = []) {
+    public static function post($uri, array $data = [], array $headers = [], array $options = []) {
         $method = HttpMethodEnum::POST;
         return self::runRequest(compact('uri', 'data', 'headers', 'options', 'method'));
     }
 
-    public static function put($uri, $data = [], $headers = [], $options = []) {
+    public static function put($uri, array $data = [], array $headers = [], array $options = []) {
         $method = HttpMethodEnum::PUT;
         return self::runRequest(compact('uri', 'data', 'headers', 'options', 'method'));
     }
 
-    public static function delete($uri, $data = [], $headers = [], $options = []) {
+    public static function delete($uri, array $data = [], array $headers = [], array $options = []) {
         $method = HttpMethodEnum::DELETE;
         return self::runRequest(compact('uri', 'data', 'headers', 'options', 'method'));
     }
@@ -46,12 +47,17 @@ class RestHelper {
         return self::buildResponseEntity($response);
     }
 
-    private static function runRequest($data) {
+    private static function runRequest(array $data) {
         $requestEntity = new RequestEntity;
         $requestEntity->load($data);
         return self::sendRequest($requestEntity);
     }
 
+    /**
+     * @param RequestEntity $requestEntity
+     * @return \yii\httpclient\Request
+     * @throws
+     */
     private static function buildRequestClass(RequestEntity $requestEntity) {
         $requestEntity->validate();
         $httpClient = new Client();
@@ -66,7 +72,11 @@ class RestHelper {
         return $request;
     }
 
-    private static function buildResponseEntity($response) {
+    /**
+     * @param Response $response
+     * @return ResponseEntity
+     */
+    private static function buildResponseEntity(Response $response) {
         $responseEntity = new ResponseEntity;
         $responseEntity->data = $response->data;
         $responseEntity->headers = $response->headers;
