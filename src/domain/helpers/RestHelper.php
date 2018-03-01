@@ -68,6 +68,7 @@ class RestHelper {
             ->setUrl($requestEntity->uri)
             ->setData($requestEntity->data)
             ->setHeaders($requestEntity->headers)
+	        ->setCookies($requestEntity->cookies)
             ->addHeaders(['user-agent' => 'Awesome-Octocat-App']);
         return $request;
     }
