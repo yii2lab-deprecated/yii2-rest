@@ -14,7 +14,7 @@ abstract class BaseRestRepository extends BaseRepository {
 	public $headers = [];
 	public $options = [];
 	
-	protected function get($uri, array $data = [], array $headers = [], array $options = []) {
+	protected function get($uri = null, array $data = [], array $headers = [], array $options = []) {
 		$requestEntity = new RequestEntity;
 		$requestEntity->method = HttpMethodEnum::GET;
 		$requestEntity->uri = $uri;
@@ -24,7 +24,7 @@ abstract class BaseRestRepository extends BaseRepository {
 		return $this->sendRequest($requestEntity);
 	}
 	
-	protected function post($uri, array $data = [], array $headers = [], array $options = []) {
+	protected function post($uri = null, array $data = [], array $headers = [], array $options = []) {
 		$requestEntity = new RequestEntity;
 		$requestEntity->method = HttpMethodEnum::POST;
 		$requestEntity->uri = $uri;
@@ -34,7 +34,7 @@ abstract class BaseRestRepository extends BaseRepository {
 		return $this->sendRequest($requestEntity);
 	}
 	
-	protected function put($uri, array $data = [], array $headers = [], array $options = []) {
+	protected function put($uri = null, array $data = [], array $headers = [], array $options = []) {
 		$requestEntity = new RequestEntity;
 		$requestEntity->method = HttpMethodEnum::PUT;
 		$requestEntity->uri = $uri;
@@ -44,7 +44,7 @@ abstract class BaseRestRepository extends BaseRepository {
 		return $this->sendRequest($requestEntity);
 	}
 	
-	protected function delete($uri, array $data = [], array $headers = [], array $options = []) {
+	protected function delete($uri = null, array $data = [], array $headers = [], array $options = []) {
 		$requestEntity = new RequestEntity;
 		$requestEntity->method = HttpMethodEnum::DELETE;
 		$requestEntity->uri = $uri;
