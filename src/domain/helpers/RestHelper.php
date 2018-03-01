@@ -26,7 +26,7 @@ class RestHelper {
         return self::runRequest(compact('uri', 'data', 'headers', 'options', 'method'));
     }
 
-    public static function delete($uri, array $data = [], array $headers = [], array $options = []) {
+    public static function del($uri, array $data = [], array $headers = [], array $options = []) {
         $method = HttpMethodEnum::DELETE;
         return self::runRequest(compact('uri', 'data', 'headers', 'options', 'method'));
     }

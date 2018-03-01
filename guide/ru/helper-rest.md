@@ -12,7 +12,7 @@ $responseEntity = RestHelper::get('http://api.demo.yii/v1/city');
 * `get()` - запрос методом GET
 * `post()` - запрос методом POST
 * `put()` - запрос методом PUT
-* `delete()` - запрос методом DELETE
+* `del()` - запрос методом DELETE
 * `sendRequest()` - отправка запроса, используя сущность запроса
 
 все методы, кроме `sendRequest` имеют такой набор параметров:

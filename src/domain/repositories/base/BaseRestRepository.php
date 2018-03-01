@@ -50,7 +50,7 @@ abstract class BaseRestRepository extends BaseRepository {
 		return $this->sendRequest($requestEntity);
 	}
 	
-	protected function delete($uri = null, array $data = [], array $headers = [], array $options = []) {
+	protected function del($uri = null, array $data = [], array $headers = [], array $options = []) {
 		$requestEntity = new RequestEntity;
 		$requestEntity->method = HttpMethodEnum::DELETE;
 		$requestEntity->uri = $uri;
