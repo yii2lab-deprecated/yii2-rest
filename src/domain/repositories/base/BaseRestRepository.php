@@ -3,9 +3,15 @@
 namespace yii2lab\rest\domain\repositories\base;
 
 use yii\helpers\ArrayHelper;
+use yii\web\ForbiddenHttpException;
+use yii\web\NotFoundHttpException;
+use yii\web\ServerErrorHttpException;
+use yii\web\UnauthorizedHttpException;
+use yii\web\UnprocessableEntityHttpException;
 use yii2lab\domain\repositories\BaseRepository;
 use yii2lab\misc\enums\HttpMethodEnum;
 use yii2lab\rest\domain\entities\RequestEntity;
+use yii2lab\rest\domain\entities\ResponseEntity;
 use yii2lab\rest\domain\helpers\RestHelper;
 
 abstract class BaseRestRepository extends BaseRepository {
@@ -56,7 +62,41 @@ abstract class BaseRestRepository extends BaseRepository {
 	
 	protected function sendRequest(RequestEntity $requestEntity) {
 		$requestEntity = $this->normalizeRequestEntity($requestEntity);
-		return RestHelper::sendRequest($requestEntity);
+		$responseEntity = RestHelper::sendRequest($requestEntity);
+		$this->handleStatusCode($responseEntity);
+		return $responseEntity;
+	}
+	
+	protected function handleStatusCode(ResponseEntity $responseEntity) {
+		if($responseEntity->is_ok) {
+			if($responseEntity->status_code == 201 || $responseEntity->status_code == 204) {
+				$responseEntity->content = null;
+			}
+		} else {
+			if($responseEntity->status_code >= 400) {
+				$this->showUserException($responseEntity);
+			}
+			if($responseEntity->status_code >= 500) {
+				$this->showServerException($responseEntity);
+			}
+		}
+	}
+	
+	protected function showServerException(ResponseEntity $responseEntity) {
+		throw new ServerErrorHttpException();
+	}
+	
+	protected function showUserException(ResponseEntity $responseEntity) {
+		$statusCode = $responseEntity->status_code;
+		if($statusCode == 401) {
+			throw new UnauthorizedHttpException();
+		} elseif($statusCode == 403) {
+			throw new ForbiddenHttpException();
+		} elseif($statusCode == 422) {
+			throw new UnprocessableEntityHttpException();
+		} elseif($statusCode == 404) {
+			throw new NotFoundHttpException(static::class);
+		}
 	}
 	
 	private function normalizeRequestEntity(RequestEntity $requestEntity) {
