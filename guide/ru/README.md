@@ -15,3 +15,8 @@
 
 * [BaseRestRepository](repository-base-rest.md)
 
+## Сущности
+
+* [RequestEntity](entity-request.md)
+* [ResponseEntity](entity-response.md)
+

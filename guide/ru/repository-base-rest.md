@@ -46,11 +46,12 @@ BaseRestRepository
 ```php
 class UserRepository extends BaseRestRepository {
 
-	public function login($login, $password) {
-		return $this->post('auth', [
+public function login($login, $password) {
+		$responseEntity = $this->post('auth', [
 			'login' => $login,
 			'password' => $password,
 		]);
+		return $this->forgeEntity($responseEntity->data, LoginEntity::class);
 	}
 	
 	public function loginAlt($login, $password) {
@@ -61,7 +62,8 @@ class UserRepository extends BaseRestRepository {
 			'login' => $login,
 			'password' => $password,
 		];
-		return $this->sendRequest($requestEntity);
+		$responseEntity =  $this->sendRequest($requestEntity);
+		return $this->forgeEntity($responseEntity->data, LoginEntity::class);
 	}
 	
 }

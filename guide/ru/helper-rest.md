@@ -30,12 +30,3 @@ $requestEntity->method = HttpMethodEnum::GET;
 $requestEntity->uri = 'http://api.demo.yii/v1/city';
 $responseEntity = RestHelper::sendRequest($requestEntity);
 ```
-
-Сущность `RequestEntity` имеет поля:
-
-* `method` - метод запроса
-* `uri` - ссылка
-* `data` - тело для POST
-* `headers` - заголовки
-* `options` - опции http-клиента
-* `cookies` - куки
