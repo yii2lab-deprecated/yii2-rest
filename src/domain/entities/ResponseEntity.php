@@ -14,6 +14,7 @@ use yii2lab\domain\BaseEntity;
  * @property array $cookies
  * @property integer $status_code
  * @property string $format
+ * @property boolean $is_ok
  */
 class ResponseEntity extends BaseEntity {
 
