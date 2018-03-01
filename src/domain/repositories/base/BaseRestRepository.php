@@ -8,7 +8,7 @@ use yii2lab\misc\enums\HttpMethodEnum;
 use yii2lab\rest\domain\entities\RequestEntity;
 use yii2lab\rest\domain\helpers\RestHelper;
 
-class BaseRestRepository extends BaseRepository {
+abstract class BaseRestRepository extends BaseRepository {
 
     public $baseUrl = '';
 	public $headers = [];
