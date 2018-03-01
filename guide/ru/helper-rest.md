@@ -7,18 +7,20 @@ RestHelper
 $responseEntity = RestHelper::get('http://api.demo.yii/v1/city');
 ```
 
-Есть методы:
+Имеет 5 методов:
 
-* get
-* post
-* put
-* delete
+* `get()` - запрос методом GET
+* `post()` - запрос методом POST
+* `put()` - запрос методом PUT
+* `delete()` - запрос методом DELETE
+* `sendRequest()` - отправка запроса, используя сущность запроса
 
-все они имеют такой набор параметров:
+все методы, кроме `sendRequest` имеют такой набор параметров:
 
 * `uri` - ссылка
 * `data` - тело для POST
 * `headers` - заголовки
+* `options` - опции http-клиента
 
 Для создания кастомного запроса:
 
@@ -35,4 +37,5 @@ $responseEntity = RestHelper::sendRequest($requestEntity);
 * `uri` - ссылка
 * `data` - тело для POST
 * `headers` - заголовки
-
+* `options` - опции http-клиента
+* `cookies` - куки

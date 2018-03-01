@@ -10,3 +10,8 @@
 ## Хэлперы
 
 * [RestHelper](helper-rest.md)
+
+## Хранилища
+
+* [BaseRestRepository](repository-base-rest.md)
+
