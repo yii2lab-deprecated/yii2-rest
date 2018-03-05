@@ -2,6 +2,7 @@
 
 namespace yii2lab\rest\web\models;
 
+use InvalidArgumentException;
 use yii\base\InvalidParamException;
 use yii\base\Model;
 use yii\helpers\Json;
@@ -71,13 +72,13 @@ class ImportForm extends Model
         $content = file_get_contents($this->dataFile->tempName);
         try {
             $data = Json::decode($content);
-        } catch (InvalidParamException $e) {
+        } catch (InvalidArgumentException $e) {
             $this->addError('dataFile', 'Json parser: ' . $e->getMessage());
             return false;
         }
         try {
             $count = $storage->importCollection($data);
-        } catch (InvalidParamException $e) {
+        } catch (InvalidArgumentException $e) {
             $this->addError('dataFile', 'Import: ' . $e->getMessage());
             return false;
         }
