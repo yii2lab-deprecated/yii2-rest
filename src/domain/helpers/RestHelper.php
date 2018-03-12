@@ -8,8 +8,6 @@ use yii\httpclient\Client;
 use yii2lab\rest\domain\entities\RequestEntity;
 use yii2lab\misc\enums\HttpMethodEnum;
 use yii2lab\rest\domain\entities\ResponseEntity;
-use yii2mod\collection\Collection;
-use yii2mod\helpers\ArrayHelper;
 
 class RestHelper {
 
