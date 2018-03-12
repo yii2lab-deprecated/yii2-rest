@@ -8,6 +8,8 @@ use yii\httpclient\Client;
 use yii2lab\rest\domain\entities\RequestEntity;
 use yii2lab\misc\enums\HttpMethodEnum;
 use yii2lab\rest\domain\entities\ResponseEntity;
+use yii2mod\collection\Collection;
+use yii2mod\helpers\ArrayHelper;
 
 class RestHelper {
 
@@ -78,9 +80,13 @@ class RestHelper {
      * @return ResponseEntity
      */
     private static function buildResponseEntity(Response $response) {
-        $responseEntity = new ResponseEntity;
+        $headers = [];
+        foreach($response->headers as $k => $v) {
+        	$headers[strtolower($k)] = $v[0];
+        }
+    	$responseEntity = new ResponseEntity;
         $responseEntity->data = $response->data;
-        $responseEntity->headers = $response->headers;
+        $responseEntity->headers = $headers;
         $responseEntity->content = $response->content;
         $responseEntity->format = $response->format;
         $responseEntity->cookies = $response->cookies;
