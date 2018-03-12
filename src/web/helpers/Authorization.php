@@ -4,6 +4,8 @@ namespace yii2lab\rest\web\helpers;
 
 use Yii;
 use yii2lab\helpers\yii\ArrayHelper;
+use yii2lab\rest\domain\helpers\AuthorizationHelper;
+use yii2module\account\domain\v2\entities\LoginEntity;
 
 class Authorization
 {
@@ -22,29 +24,19 @@ class Authorization
         return $loginListForSelect;
     }
 
-    static public function getToken($login)
+    static public function getTokenByLogin($login)
     {
-	    $user = $loginList = Yii::$app->account->test->oneByLogin($login);
-	    $password = !empty($user->password) ?  $user->password: self::$password;
+	    /** @var LoginEntity $userEntity */
+	    $userEntity = $loginList = Yii::$app->account->test->oneByLogin($login);
+	    $password = !empty($userEntity->password) ?  $userEntity->password: self::$password;
 	    
-    	$modelAuth = Request::createRequestFrom('auth', 'post', [
-            'login' => $login,
-            'password' => $password,
-        ]);
+	    $baseUrl = rtrim(Yii::$app->controller->module->baseUrl, '/') . '/';
+	    $token = AuthorizationHelper::getToken($baseUrl . 'auth', $userEntity->login, $password);
 	    
-        $response = Request::httpRequest($modelAuth);
-		if(empty($response)) {
-            return null;
-        }
-        if($response->statusCode != 200) {
-            return null;
-        }
-        $bodyAuth = json_decode($response->content);
-        if(empty($bodyAuth) || empty($bodyAuth->token)) {
-            return null;
-        }
-        Token::save($login, $bodyAuth->token);
-        return $bodyAuth->token;
+		if(!empty($token)) {
+			Token::save($login, $token);
+		}
+        return $token;
     }
 
     static public function sendRequest($model)
@@ -53,15 +45,14 @@ class Authorization
             $record = Request::send($model);
             return $record;
         }
-
         $token = Token::load($model->authorization);
         if(empty($token)) {
-            $token = Authorization::getToken($model->authorization);
+            $token = Authorization::getTokenByLogin($model->authorization);
         }
         $record = self::putTokenInModel($model, $token);
 
         if($record->status == 401) {
-            $token = Authorization::getToken($model->authorization);
+            $token = Authorization::getTokenByLogin($model->authorization);
             $record = self::putTokenInModel($model, $token);
         }
 
