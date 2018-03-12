@@ -13,17 +13,14 @@ class Menu implements MenuInterface {
 		$items = $this->getVersionMenu($all);
 		if(count($items) > 1) {
 			$item = [
-				'label' => 'API',
 				'items' => $items,
-				'visible' => YII_ENV_DEV,
-				'access' => [PermissionEnum::REST_CLIENT_ALL],
 			];
 		} else {
 			$item = $items[0];
-			$item['label'] = 'API';
-			$item['visible'] = YII_ENV_DEV;
-			$item['access'] = [PermissionEnum::REST_CLIENT_ALL];
 		}
+		$item['label'] = 'API';
+		$item['visible'] = YII_ENV_DEV;
+		$item['access'] = [PermissionEnum::REST_CLIENT_ALL];
 		return $item;
 	}
 	
