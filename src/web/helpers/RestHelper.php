@@ -10,25 +10,32 @@ class RestHelper
 	
 	public static function sendRequest(RequestForm $model)
 	{
+		$login = $model->authorization;
 		if(empty($model->authorization)) {
 			$record = Request::send($model);
 			return $record;
 		}
-		$token = self::getTokenByLogin($model->authorization);
-		$record = self::putTokenInModel($model, $token);
+		$record = self::sendRequestWithToken($model);
 		if($record->status == 401) {
-			$token = Authorization::getTokenByLogin($model->authorization);
-			$record = self::putTokenInModel($model, $token);
+			Token::save($login, null);
+			$record = self::sendRequestWithToken($model);
 		}
 		return $record;
 	}
 	
+	private static function sendRequestWithToken($model) {
+		$token = self::getTokenByLogin($model->authorization);
+		$modelAuth = self::putTokenInModel($model, $token);
+		$record = Request::send($modelAuth);
+		return $record;
+	}
+	
 	private static function getTokenByLogin($login) {
-		$token = Token::load($login);
+		$token = $storedToken = Token::load($login);
 		if(empty($token)) {
 			$token = Authorization::getTokenByLogin($login);
 		}
-		if(!empty($token)) {
+		if(!empty($token) && $token != $storedToken) {
 			Token::save($login, $token);
 		}
 		return $token;
@@ -42,8 +49,7 @@ class RestHelper
 			$modelAuth->headerValues[] = $token;
 			$modelAuth->headerActives[] = 1;
 		}
-		$record = Request::send($modelAuth);
-		return $record;
+		return $modelAuth;
 	}
 
 }
