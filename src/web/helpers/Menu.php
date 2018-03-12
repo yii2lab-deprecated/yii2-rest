@@ -9,16 +9,25 @@ use yii2lab\helpers\ModuleHelper;
 class Menu implements MenuInterface {
 	
 	public function toArray() {
-		return [
-			'label' => 'API',
-			'items' => $this->getVersionMenu(),
-			'visible' => YII_ENV_DEV,
-			'access' => [PermissionEnum::REST_CLIENT_ALL],
-		];
+		$all = ModuleHelper::allByApp(FRONTEND);
+		$items = $this->getVersionMenu($all);
+		if(count($items) > 1) {
+			$item = [
+				'label' => 'API',
+				'items' => $items,
+				'visible' => YII_ENV_DEV,
+				'access' => [PermissionEnum::REST_CLIENT_ALL],
+			];
+		} else {
+			$item = $items[0];
+			$item['label'] = 'API';
+			$item['visible'] = YII_ENV_DEV;
+			$item['access'] = [PermissionEnum::REST_CLIENT_ALL];
+		}
+		return $item;
 	}
 	
-	private function getVersionMenu() {
-		$all = ModuleHelper::allByApp(FRONTEND);
+	private function getVersionMenu($all) {
 		$menu = [];
 		foreach($all as $name => $config) {
 			if($config['class'] == 'yii2lab\rest\web\Module') {
