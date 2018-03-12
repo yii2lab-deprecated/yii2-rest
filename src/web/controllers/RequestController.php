@@ -6,6 +6,7 @@ use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii2lab\helpers\yii\ArrayHelper;
+use yii2lab\rest\web\helpers\RestHelper;
 use yii2lab\rest\web\models\RequestEvent;
 use yii2lab\rest\web\models\RequestForm;
 use yii2lab\rest\web\models\ResponseEvent;
@@ -89,7 +90,7 @@ class RequestController extends Controller
             'form' => $model,
         ]));
 
-        $record = Authorization::sendRequest($model);
+        $record = RestHelper::sendRequest($model);
 
         $this->module->trigger(Module::EVENT_ON_RESPONSE, new ResponseEvent([
             'form' => $model,
