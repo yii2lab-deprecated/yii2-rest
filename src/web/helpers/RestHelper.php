@@ -35,7 +35,7 @@ class RestHelper
 		if(empty($token)) {
 			$token = Authorization::getTokenByLogin($login);
 		}
-		if(!empty($token) && $token != $storedToken) {
+		if($token != $storedToken) {
 			Token::save($login, $token);
 		}
 		return $token;
