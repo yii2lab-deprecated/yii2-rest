@@ -2,8 +2,7 @@
 
 namespace yii2lab\rest\web\models;
 
-use InvalidArgumentException;
-use yii\base\InvalidParamException;
+use yii\base\InvalidArgumentException;
 use yii\base\Model;
 use yii\helpers\Json;
 use yii\web\UploadedFile;

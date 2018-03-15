@@ -2,8 +2,8 @@
 
 namespace yii2lab\rest\web\storages;
 
-use InvalidArgumentException;
 use yii\base\BaseObject;
+use yii\base\InvalidArgumentException;
 use yii2lab\rest\web\models\RequestForm;
 use yii2lab\rest\web\models\ResponseRecord;
 
@@ -255,18 +255,18 @@ abstract class Storage extends BaseObject
         $responses = [];
         foreach ($data as $tag => $row) {
             if (!preg_match('/^[a-f0-9]+$/', $tag)) {
-                throw new \InvalidArgumentException("Tag {$tag} must be a string and contains a-f0-9 symbols only.");
+                throw new InvalidArgumentException("Tag {$tag} must be a string and contains a-f0-9 symbols only.");
             }
 
             if (!isset($row['request'], $row['response'])) {
-                throw new \InvalidArgumentException("Row {$tag} must contains request and response.");
+                throw new InvalidArgumentException("Row {$tag} must contains request and response.");
             }
 
             $request = new RequestForm();
             $request->setAttributes($row['request']);
             if (!$request->validate()) {
                 $errors = $request->getFirstErrors();
-                throw new \InvalidArgumentException(reset($errors));
+                throw new InvalidArgumentException(reset($errors));
             }
             $requests[$tag] = $request;
 
@@ -277,7 +277,7 @@ abstract class Storage extends BaseObject
                 $response->headers = $row['response']['headers'];
                 $response->content = $row['response']['content'];
             } catch (\Exception $e) {
-                throw new \InvalidArgumentException($e->getMessage(), $e->getCode(), $e);
+                throw new InvalidArgumentException($e->getMessage(), $e->getCode(), $e);
             }
             $responses[$tag] = $response;
         }

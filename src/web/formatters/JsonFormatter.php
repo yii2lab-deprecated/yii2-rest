@@ -2,7 +2,7 @@
 
 namespace yii2lab\rest\web\formatters;
 
-use InvalidArgumentException;
+use yii\base\InvalidArgumentException;
 use yii\helpers\Html;
 use yii\helpers\Json;
 
