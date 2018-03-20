@@ -11,6 +11,9 @@ class Menu implements MenuInterface {
 	public function toArray() {
 		$all = ModuleHelper::allByApp(FRONTEND);
 		$items = $this->getVersionMenu($all);
+		if(empty($items)) {
+			return [];
+		}
 		if(count($items) > 1) {
 			$item = [
 				'items' => $items,
