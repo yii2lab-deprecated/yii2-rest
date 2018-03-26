@@ -19,6 +19,7 @@ abstract class BaseRestRepository extends BaseRepository {
     public $baseUrl = '';
 	public $headers = [];
 	public $options = [];
+	public $format;
 	
 	protected function get($uri = null, array $data = [], array $headers = [], array $options = []) {
 		$requestEntity = new RequestEntity;
@@ -111,6 +112,9 @@ abstract class BaseRestRepository extends BaseRepository {
 		}
 		if(!empty($this->options)) {
 			$requestEntity->options = ArrayHelper::merge($requestEntity->options, $this->options);
+		}
+		if(!empty($this->format)) {
+			$requestEntity->format = $this->format;
 		}
 		return $requestEntity;
 	}

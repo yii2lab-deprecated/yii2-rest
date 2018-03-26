@@ -15,6 +15,7 @@ use yii2lab\misc\enums\HttpMethodEnum;
  * @property $headers array
  * @property $options array
  * @property $cookies array
+ * @property $format string
  */
 class RequestEntity extends BaseEntity {
 
@@ -24,6 +25,7 @@ class RequestEntity extends BaseEntity {
 	protected $headers = [];
 	protected $options = [];
 	protected $cookies = [];
+	protected $format;
 	
 	public function rules() {
 		return [

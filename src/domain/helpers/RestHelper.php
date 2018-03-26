@@ -74,7 +74,11 @@ class RestHelper {
             ->setData($requestEntity->data)
             ->setHeaders($requestEntity->headers)
 	        ->setCookies($requestEntity->cookies)
+	        // todo: убрать хардкод
             ->addHeaders(['user-agent' => 'Awesome-Octocat-App']);
+        if(!empty($requestEntity->format)) {
+	        $request->setFormat($requestEntity->format);
+        }
         return $request;
     }
 	
