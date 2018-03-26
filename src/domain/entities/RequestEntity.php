@@ -25,7 +25,7 @@ class RequestEntity extends BaseEntity {
 	protected $headers = [];
 	protected $options = [];
 	protected $cookies = [];
-	protected $format;
+	protected $format = null;
 	
 	public function rules() {
 		return [
