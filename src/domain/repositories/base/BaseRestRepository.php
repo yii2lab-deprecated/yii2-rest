@@ -106,6 +106,7 @@ abstract class BaseRestRepository extends BaseRepository {
 		if(!empty($uri)) {
 			$resultUrl .= SL . $uri;
 		}
+		$resultUrl = ltrim($resultUrl, SL);
 		$requestEntity->uri = $resultUrl;
 		if(!empty($this->headers)) {
 			$requestEntity->headers = ArrayHelper::merge($requestEntity->headers, $this->headers);
