@@ -9,6 +9,7 @@ use yii\web\ServerErrorHttpException;
 use yii\web\UnauthorizedHttpException;
 use yii\web\UnprocessableEntityHttpException;
 use yii2lab\domain\repositories\BaseRepository;
+use yii2lab\helpers\UrlHelper;
 use yii2lab\misc\enums\HttpMethodEnum;
 use yii2lab\rest\domain\entities\RequestEntity;
 use yii2lab\rest\domain\entities\ResponseEntity;
@@ -101,13 +102,7 @@ abstract class BaseRestRepository extends BaseRepository {
 	}
 	
 	private function normalizeRequestEntity(RequestEntity $requestEntity) {
-		$resultUrl = rtrim($this->baseUrl, SL);
-		$uri = trim($requestEntity->uri, SL);
-		if(!empty($uri)) {
-			$resultUrl .= SL . $uri;
-		}
-		$resultUrl = ltrim($resultUrl, SL);
-		$requestEntity->uri = $resultUrl;
+		$this->normalizeRequestEntityUrl($requestEntity);
 		if(!empty($this->headers)) {
 			$requestEntity->headers = ArrayHelper::merge($requestEntity->headers, $this->headers);
 		}
@@ -118,5 +113,26 @@ abstract class BaseRestRepository extends BaseRepository {
 			$requestEntity->format = $this->format;
 		}
 		return $requestEntity;
+	}
+	
+	private function normalizeRequestEntityUrl(RequestEntity $requestEntity) {
+		if(UrlHelper::isAbsolute($requestEntity->uri)) {
+			return $requestEntity;
+		}
+		$resultUrl = rtrim($this->baseUrl, SL);
+		$uri = trim($requestEntity->uri, SL);
+		if(!empty($uri)) {
+			$resultUrl .= SL . $uri;
+		}
+		$resultUrl = ltrim($resultUrl, SL);
+		$requestEntity->uri = $resultUrl;
+		return $requestEntity;
+	}
+	
+	public function forgeEntity($data, $class = null) {
+		if($data instanceof ResponseEntity) {
+			$data = $data->data;
+		}
+		return parent::forgeEntity($data, $class);
 	}
 }
