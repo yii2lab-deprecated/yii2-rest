@@ -2,10 +2,10 @@
 
 namespace yii2lab\rest\domain\helpers;
 
+use Yii;
 use yii\httpclient\Request;
 use yii\httpclient\Response;
 use yii\web\ServerErrorHttpException;
-use yii\httpclient\Client;
 use yii2lab\rest\domain\entities\RequestEntity;
 use yii2lab\misc\enums\HttpMethodEnum;
 use yii2lab\rest\domain\entities\ResponseEntity;
@@ -65,8 +65,8 @@ class RestHelper {
      */
     private static function buildRequestClass(RequestEntity $requestEntity) {
         $requestEntity->validate();
-        $httpClient = new Client();
-        $request = $httpClient->createRequest();
+	    /** @var Request $request */
+	    $request = Yii::$app->httpClient->createRequest();
         $request
             ->setOptions($requestEntity->options)
             ->setMethod($requestEntity->method)
