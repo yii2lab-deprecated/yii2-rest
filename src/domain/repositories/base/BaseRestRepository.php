@@ -85,7 +85,11 @@ abstract class BaseRestRepository extends BaseRepository {
 	}
 	
 	protected function showServerException(ResponseEntity $responseEntity) {
-		throw new ServerErrorHttpException();
+		$message = '';
+		if(isset($responseEntity->data['message'])) {
+			$message = $responseEntity->data['message'];
+		}
+		throw new ServerErrorHttpException($message);
 	}
 	
 	protected function showUserException(ResponseEntity $responseEntity) {
