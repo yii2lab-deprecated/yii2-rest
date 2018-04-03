@@ -13,7 +13,7 @@ class Authorization
 	public static $password = 'Wwwqqq111';
 	
 	public static function loginListForSelect() {
-		$loginList = Yii::$app->account->test->all();
+		$loginList = Yii::$domain->account->test->all();
 	    $loginListForSelect = [];
 	    if(!empty($loginList)) {
             foreach($loginList as $login) {
@@ -27,7 +27,7 @@ class Authorization
 	public static function getTokenByLogin($login)
     {
 	    /** @var LoginEntity $userEntity */
-	    $userEntity = $loginList = Yii::$app->account->test->oneByLogin($login);
+	    $userEntity = $loginList = Yii::$domain->account->test->oneByLogin($login);
 	    $password = !empty($userEntity->password) ?  $userEntity->password: self::$password;
 	    $token = self::getTokenFromRest($userEntity->login, $password);
         return $token;
