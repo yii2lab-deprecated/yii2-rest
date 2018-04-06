@@ -20,3 +20,6 @@
 * [RequestEntity](entity-request.md)
 * [ResponseEntity](entity-response.md)
 
+## Rest API
+
+* [CRUD](api-crud.md)
