@@ -4,6 +4,7 @@ namespace yii2lab\rest\web\helpers;
 
 use common\enums\app\ApiVersionEnum;
 use common\enums\rbac\PermissionEnum;
+use yii\helpers\ArrayHelper;
 use yii2lab\domain\enums\Driver;
 use yii2lab\helpers\Behavior;
 
@@ -20,6 +21,12 @@ class RestModuleHelper {
 				'storage' => Driver::primary() == Driver::FILEDB ? 'yii2lab\rest\web\storages\FiledbStorage' : 'yii2lab\rest\web\storages\DbStorage',
 			];
 		}
+		return $config;
+	}
+	
+	public static function appendConfig($config) {
+		$restClientConfig = RestModuleHelper::getConfig();
+		$config = ArrayHelper::merge($config, $restClientConfig);
 		return $config;
 	}
 	
