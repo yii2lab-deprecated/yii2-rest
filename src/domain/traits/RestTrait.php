@@ -84,11 +84,7 @@ trait RestTrait {
 	}
 	
 	protected function showServerException(ResponseEntity $responseEntity) {
-		$message = '';
-		if(isset($responseEntity->data['message'])) {
-			$message = $responseEntity->data['message'];
-		}
-		throw new ServerErrorHttpException($message);
+		throw new ServerErrorHttpException('Core Error: ' . $responseEntity->data['message'], 0);
 	}
 	
 	protected function showUserException(ResponseEntity $responseEntity) {
