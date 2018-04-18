@@ -4,6 +4,7 @@ namespace yii2lab\rest\web\helpers;
 
 use common\enums\rbac\PermissionEnum;
 use yii2lab\extension\menu\interfaces\MenuInterface;
+use yii2lab\helpers\ClassHelper;
 use yii2lab\helpers\ModuleHelper;
 
 class Menu implements MenuInterface {
@@ -30,6 +31,7 @@ class Menu implements MenuInterface {
 	private function getVersionMenu($all) {
 		$menu = [];
 		foreach($all as $name => $config) {
+			$config = ClassHelper::normalizeComponentConfig($config);
 			if($config['class'] == 'yii2lab\rest\web\Module') {
 				$menu[] = [
 					'label' => $this->parseVersion($name),
