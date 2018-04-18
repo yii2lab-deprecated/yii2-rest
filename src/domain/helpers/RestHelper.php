@@ -45,7 +45,7 @@ class RestHelper {
         try {
 	        $response = $request->send();
         } catch(\yii\httpclient\Exception $e) {
-            throw new ServerErrorHttpException('Url "' . $request->url . '" is not available');
+            throw new ServerErrorHttpException('Url "' . $request->url . '" is not available', null, $e);
         }
 	    $end = microtime(true);
 	    $duration = $end - $begin;
