@@ -12,6 +12,7 @@ use yii2lab\helpers\UrlHelper;
 use yii2lab\misc\enums\HttpMethodEnum;
 use yii2lab\rest\domain\entities\RequestEntity;
 use yii2lab\rest\domain\entities\ResponseEntity;
+use yii2lab\rest\domain\exceptions\UnavailableRestServerHttpException;
 use yii2lab\rest\domain\helpers\RestHelper;
 
 trait RestTrait {
@@ -78,6 +79,9 @@ trait RestTrait {
 				$this->showUserException($responseEntity);
 			}
 			if($responseEntity->status_code >= 500) {
+				if($responseEntity->status_code >= 503) {
+					throw new UnavailableRestServerHttpException();
+				}
 				$this->showServerException($responseEntity);
 			}
 		}
