@@ -7,6 +7,7 @@ use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii2lab\helpers\Behavior;
+use yii2lab\navigation\domain\widgets\Alert;
 
 /**
  * Class HistoryController
@@ -35,7 +36,7 @@ class HistoryController extends Controller
     public function actionDelete($tag)
     {
         if ($this->module->storage->removeFromHistory($tag)) {
-            Yii::$app->session->setFlash('success', 'Request was removed from history successfully.');
+	        Yii::$domain->navigation->alert->create('Request was removed from history successfully.', Alert::TYPE_SUCCESS);
             return $this->redirect(['request/create']);
         } else {
             throw new NotFoundHttpException('Request not found.');
@@ -45,9 +46,9 @@ class HistoryController extends Controller
     public function actionClear()
     {
         if ($count = $this->module->storage->clearHistory()) {
-            Yii::$app->session->setFlash('success', 'History was cleared successfully.');
+	        Yii::$domain->navigation->alert->create('History was cleared successfully.', Alert::TYPE_SUCCESS);
         } else {
-            Yii::$app->session->setFlash('warning', 'History already is empty.');
+	        Yii::$domain->navigation->alert->create('History already is empty.', Alert::TYPE_WARNING);
         }
         return $this->redirect(['request/create']);
     }

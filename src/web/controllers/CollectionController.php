@@ -8,6 +8,7 @@ use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii2lab\helpers\Behavior;
+use yii2lab\navigation\domain\widgets\Alert;
 use yii2lab\rest\web\models\ImportForm;
 
 /**
@@ -38,7 +39,7 @@ class CollectionController extends Controller
     public function actionLink($tag)
     {
         if ($this->module->storage->addToCollection($tag)) {
-            Yii::$app->session->setFlash('success', 'Request was added to collection successfully.');
+        	Yii::$domain->navigation->alert->create('Request was added to collection successfully.', Alert::TYPE_SUCCESS);
             return $this->redirect(['request/create', 'tag' => $tag]);
         } else {
             throw new NotFoundHttpException('Request not found.');
@@ -48,7 +49,7 @@ class CollectionController extends Controller
     public function actionUnlink($tag)
     {
         if ($this->module->storage->removeFromCollection($tag)) {
-            Yii::$app->session->setFlash('success', 'Request was removed from collection successfully.');
+	        Yii::$domain->navigation->alert->create('Request was removed from collection successfully.', Alert::TYPE_SUCCESS);
             return $this->redirect(['request/create']);
         } else {
             throw new NotFoundHttpException('Request not found.');
@@ -71,9 +72,9 @@ class CollectionController extends Controller
             ($count = $model->save($this->module->storage)) !== false
         ) {
             if ($count) {
-                Yii::$app->session->setFlash('success', "{$count} requests was imported to collection successfully.");
+	            Yii::$domain->navigation->alert->create("{$count} requests was imported to collection successfully.", Alert::TYPE_SUCCESS);
             } else {
-                Yii::$app->session->setFlash('warning', "New requests not found.");
+	            Yii::$domain->navigation->alert->create("New requests not found.", Alert::TYPE_WARNING);
             }
             return $this->redirect(['request/create']);
         }

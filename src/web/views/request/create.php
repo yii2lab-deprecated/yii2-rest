@@ -18,8 +18,6 @@ if ($model->method) {
 }
 ?>
 
-<?= $this->render('_alerts') ?>
-
 <div class="rest-request-create">
     <div class="row">
         <div class="col-lg-8">
