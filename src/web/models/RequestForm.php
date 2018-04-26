@@ -178,18 +178,21 @@ class RequestForm extends Model
      */
     private function prepareRows(&$keys, &$values, &$actives)
     {
-        $k = (array)$keys;
+    	$k = (array)$keys;
         $v = (array)$values;
         $a = (array)$actives;
         $keys = [];
         $values = [];
         $actives = [];
-        while(($key = each($k)) && ($value = each($v)) && ($active = each($a))) {
-            if ($key[1] !== '' || $value[1] !== '') {
-                $keys[] = $key[1];
-                $values[] = $value[1];
-                $actives[] = $active[1];
-            }
+	    foreach($k as $index => $name) {
+		    $key = $k[$index];
+		    $value = $v[$index];
+		    $active = $a[$index];
+		    if ($key !== '' || $value !== '') {
+			    $keys[] = $key;
+			    $values[] = $value;
+			    $actives[] = $active;
+		    }
         }
     }
 
