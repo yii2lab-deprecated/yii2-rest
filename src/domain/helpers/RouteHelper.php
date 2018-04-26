@@ -4,7 +4,7 @@ namespace yii2lab\rest\domain\helpers;
 
 use Yii;
 use yii\helpers\ArrayHelper;
-use yii2lab\domain\entities\RequestEntity;
+use yii2lab\rest\domain\entities\RequestEntity;
 use yii2lab\misc\enums\HttpMethodEnum;
 
 class RouteHelper

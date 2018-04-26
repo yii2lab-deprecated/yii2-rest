@@ -16,6 +16,8 @@ use yii2lab\misc\enums\HttpMethodEnum;
  * @property $options array
  * @property $cookies array
  * @property $format string
+ * @property-read $post array
+ * @property-read $query array
  */
 class RequestEntity extends BaseEntity {
 
@@ -33,5 +35,12 @@ class RequestEntity extends BaseEntity {
 			[['method'], 'in', 'range' => HttpMethodEnum::values()],
 		];
 	}
-
+	
+	public function getPost() {
+		return $this->data;
+	}
+	
+	public function getQuery() {
+		return $this->data;
+	}
 }
