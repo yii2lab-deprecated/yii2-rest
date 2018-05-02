@@ -88,7 +88,7 @@ trait RestTrait {
 	}
 	
 	protected function showServerException(ResponseEntity $responseEntity) {
-		throw new ServerErrorHttpException('Core Error: ' . $responseEntity->data['message'], 0);
+		throw new ServerErrorHttpException();
 	}
 	
 	protected function showUserException(ResponseEntity $responseEntity) {
