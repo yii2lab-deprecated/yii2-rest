@@ -38,7 +38,11 @@ if ($tag === $activeTag) {
 	Html::addCssClass($options, 'active');
 }
 if(isset($row['request'])) {
-	$row['request'] = unserialize($row['request']);
+	try {
+		$row['request'] = unserialize($row['request']);
+	} catch(\yii\base\ErrorException $e) {
+		$row['request'] = [];
+	}
 }
 
 ?>
