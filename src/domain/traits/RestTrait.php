@@ -104,7 +104,7 @@ trait RestTrait {
 		}
 	}
 	
-	private function normalizeRequestEntity(RequestEntity $requestEntity) {
+	protected function normalizeRequestEntity(RequestEntity $requestEntity) {
 		$this->normalizeRequestEntityUrl($requestEntity);
 		if(!empty($this->headers)) {
 			$requestEntity->headers = ArrayHelper::merge($requestEntity->headers, $this->headers);
