@@ -18,6 +18,8 @@ use yii2lab\misc\enums\HttpMethodEnum;
  * @property $format string
  * @property-read $post array
  * @property-read $query array
+ * @property $description string
+ * @property $authorization string
  */
 class RequestEntity extends BaseEntity {
 
@@ -28,6 +30,8 @@ class RequestEntity extends BaseEntity {
 	protected $options = [];
 	protected $cookies = [];
 	protected $format = null;
+	protected $description = null;
+	protected $authorization = null;
 	
 	public function rules() {
 		return [

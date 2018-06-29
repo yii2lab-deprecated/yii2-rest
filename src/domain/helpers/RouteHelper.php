@@ -23,13 +23,21 @@ class RouteHelper
         }
         return $all;
     }
-
-    public static function allFromRestClient() {
-
+	
+	public static function allRoutesForPostman21($version = null) {
+		$all = self::allFromRestClient($version);
+		
+		//prr($all,1,1);
+		
+		return PostmanHelper::genFromCollection($all);
+	}
+    
+    public static function allFromRestClient($version = null) {
+	    $version = $version ?: API_VERSION_STRING;
         $collection = Yii::$app->db->createCommand('
 SELECT endpoint, method, request
 FROM rest 
-WHERE  (module_id = \'rest-'.API_VERSION_STRING.'\' AND favorited_at > 0)
+WHERE  (module_id = \'rest-'.$version.'\' AND favorited_at > 0)
 ORDER BY endpoint')->queryAll();
         $list = [];
         foreach ($collection as $favorite) {
@@ -40,6 +48,9 @@ ORDER BY endpoint')->queryAll();
             $request->method = $favorite['method'];
 
             $favorite['request'] = unserialize($favorite['request']);
+	
+	        //prr($favorite,1,1);
+            
             if(!empty($favorite['request']['bodyKeys'])) {
                 $request->data = array_combine($favorite['request']['bodyKeys'], $favorite['request']['bodyValues']);
             }
@@ -49,6 +60,12 @@ ORDER BY endpoint')->queryAll();
             if(!empty($favorite['request']['headerKeys'])) {
                 $request->headers = array_combine($favorite['request']['headerKeys'], $favorite['request']['headerValues']);
             }
+	        if(!empty($favorite['request']['description'])) {
+            	$request->description = $favorite['request']['description'];
+	        }
+	        if(!empty($favorite['request']['authorization'])) {
+		        $request->authorization = $favorite['request']['authorization'];
+	        }
             $list[$group][] = $request;
         }
         return $list;
@@ -97,4 +114,5 @@ ORDER BY endpoint')->queryAll();
         }
         return $list;
     }
+    
 }

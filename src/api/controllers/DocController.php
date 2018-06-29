@@ -11,5 +11,9 @@ class DocController extends Controller
 	public function actionIndex() {
         return RouteHelper::allRoutes();
     }
+	
+	public function actionPostman21() {
+		return RouteHelper::allRoutesForPostman21();
+	}
 
 }

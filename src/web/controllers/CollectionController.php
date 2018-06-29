@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii2lab\helpers\Behavior;
 use yii2lab\navigation\domain\widgets\Alert;
+use yii2lab\rest\domain\helpers\RouteHelper;
 use yii2lab\rest\web\models\ImportForm;
 
 /**
@@ -63,7 +64,17 @@ class CollectionController extends Controller
             $this->module->id .'-' . date('Ymd-His') . '.json'
         );
     }
-
+	
+	public function actionExportPostman21()
+	{
+		preg_match('#(v\d)#', $this->module->id, $matches);
+		$apiVersionString = $matches[0];
+		return Yii::$app->response->sendContentAsFile(
+			Json::encode(RouteHelper::allRoutesForPostman21($apiVersionString), JSON_PRETTY_PRINT),
+			$this->module->id .'-' . date('Ymd-His') . '.json'
+		);
+	}
+    
     public function actionImport()
     {
         $model = new ImportForm();
