@@ -3,6 +3,8 @@
 namespace yii2lab\rest\api\controllers;
 
 use yii\rest\Controller;
+use yii2lab\rest\domain\helpers\MiscHelper;
+use yii2lab\rest\domain\helpers\postman\PostmanHelper;
 use yii2lab\rest\domain\helpers\RouteHelper;
 
 class DocController extends Controller
@@ -12,8 +14,9 @@ class DocController extends Controller
         return RouteHelper::allRoutes();
     }
 	
-	public function actionPostman21() {
-		return RouteHelper::allRoutesForPostman21();
+	public function actionPostman($version) {
+		$apiVersion = MiscHelper::currentApiVersion();
+		return PostmanHelper::generate($apiVersion, $version);
 	}
 
 }

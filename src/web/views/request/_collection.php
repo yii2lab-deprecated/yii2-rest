@@ -37,7 +37,7 @@ use yii\helpers\Html;
 				        'class' => 'btn btn-block btn-default',
 				        'title' => 'Export collection to file.'
 			        ]) ?>
-			        <?= Html::a('Export Postman v2.1 Collection', ['collection/export-postman-21'], [
+			        <?= Html::a('Export Postman v2.1 Collection', ['collection/export-postman', 'postmanVersion' => '2.1'], [
 				        'class' => 'btn btn-block btn-default',
 				        'title' => 'Export collection to file.'
 			        ]) ?>

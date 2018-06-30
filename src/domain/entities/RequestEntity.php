@@ -40,6 +40,10 @@ class RequestEntity extends BaseEntity {
 		];
 	}
 	
+	public function getMethod() {
+		return strtoupper($this->method);
+	}
+	
 	public function getPost() {
 		return $this->data;
 	}

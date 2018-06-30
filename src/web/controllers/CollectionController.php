@@ -4,11 +4,14 @@ namespace yii2lab\rest\web\controllers;
 
 use Yii;
 use yii\filters\VerbFilter;
+use yii\helpers\Inflector;
 use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii2lab\helpers\Behavior;
 use yii2lab\navigation\domain\widgets\Alert;
+use yii2lab\rest\domain\helpers\MiscHelper;
+use yii2lab\rest\domain\helpers\postman\PostmanHelper;
 use yii2lab\rest\domain\helpers\RouteHelper;
 use yii2lab\rest\web\models\ImportForm;
 
@@ -65,13 +68,16 @@ class CollectionController extends Controller
         );
     }
 	
-	public function actionExportPostman21()
+	public function actionExportPostman($postmanVersion)
 	{
-		preg_match('#(v\d)#', $this->module->id, $matches);
-		$apiVersionString = $matches[0];
+		$apiVersion = MiscHelper::currentApiVersion();
+		$collectionName = MiscHelper::collectionName($apiVersion);
+		$collectionName = Inflector::camelize($collectionName);
+		$collectionName = Inflector::camel2id($collectionName);
+		$fileName = $collectionName .'-' . date('Y-m-d-H-i-s') . '.json';
 		return Yii::$app->response->sendContentAsFile(
-			Json::encode(RouteHelper::allRoutesForPostman21($apiVersionString), JSON_PRETTY_PRINT),
-			$this->module->id .'-' . date('Ymd-His') . '.json'
+			PostmanHelper::generateJson($apiVersion, $postmanVersion),
+			$fileName
 		);
 	}
     

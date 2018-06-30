@@ -15,29 +15,21 @@ class RouteHelper
             return self::allFromRoutes();
         }
         if($from == 'restClient') {
-            return self::allFromRestClient();
+            return self::allFromRestClient(API_VERSION);
         }
-        $all = self::allFromRestClient();
+        $all = self::allFromRestClient(API_VERSION);
         if(empty($all)) {
             $all = self::allFromRoutes();
         }
         return $all;
     }
 	
-	public static function allRoutesForPostman21($version = null) {
-		$all = self::allFromRestClient($version);
-		
-		//prr($all,1,1);
-		
-		return PostmanHelper::genFromCollection($all);
-	}
-    
     public static function allFromRestClient($version = null) {
-	    $version = $version ?: API_VERSION_STRING;
+	    //$version = $version ?: API_VERSION;
         $collection = Yii::$app->db->createCommand('
 SELECT endpoint, method, request
 FROM rest 
-WHERE  (module_id = \'rest-'.$version.'\' AND favorited_at > 0)
+WHERE  (module_id = \'rest-v'.$version.'\' AND favorited_at > 0)
 ORDER BY endpoint')->queryAll();
         $list = [];
         foreach ($collection as $favorite) {
