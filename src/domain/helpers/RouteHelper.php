@@ -6,6 +6,7 @@ use Yii;
 use yii\helpers\ArrayHelper;
 use yii2lab\rest\domain\entities\RequestEntity;
 use yii2lab\misc\enums\HttpMethodEnum;
+use yii2lab\rest\domain\entities\RestEntity;
 
 class RouteHelper
 {
@@ -25,38 +26,28 @@ class RouteHelper
     }
 	
     public static function allFromRestClient($version = null) {
-	    //$version = $version ?: API_VERSION;
-        $collection = Yii::$app->db->createCommand('
-SELECT endpoint, method, request
-FROM rest 
-WHERE  (module_id = \'rest-v'.$version.'\' AND favorited_at > 0)
-ORDER BY endpoint')->queryAll();
+	    /** @var RestEntity[] $collection */
+	    $collection = Yii::$domain->rest->repositories->rest->allFavorite($version);
         $list = [];
         foreach ($collection as $favorite) {
-
-            $group = self::getGroup($favorite['endpoint']);
+            $group = self::getGroup($favorite->endpoint);
             $request = new RequestEntity();
-            $request->uri = $favorite['endpoint'];
-            $request->method = $favorite['method'];
-
-            $favorite['request'] = unserialize($favorite['request']);
-	
-	        //prr($favorite,1,1);
-            
-            if(!empty($favorite['request']['bodyKeys'])) {
-                $request->data = array_combine($favorite['request']['bodyKeys'], $favorite['request']['bodyValues']);
+            $request->uri = $favorite->endpoint;
+            $request->method = $favorite->method;
+            if(!empty($favorite->request['bodyKeys'])) {
+                $request->data = array_combine($favorite->request['bodyKeys'], $favorite->request['bodyValues']);
             }
-            if(!empty($favorite['request']['queryKeys'])) {
-                $request->data = array_combine($favorite['request']['queryKeys'], $favorite['request']['queryValues']);
+            if(!empty($favorite->request['queryKeys'])) {
+                $request->data = array_combine($favorite->request['queryKeys'], $favorite->request['queryValues']);
             }
-            if(!empty($favorite['request']['headerKeys'])) {
-                $request->headers = array_combine($favorite['request']['headerKeys'], $favorite['request']['headerValues']);
+            if(!empty($favorite->request['headerKeys'])) {
+                $request->headers = array_combine($favorite->request['headerKeys'], $favorite->request['headerValues']);
             }
-	        if(!empty($favorite['request']['description'])) {
-            	$request->description = $favorite['request']['description'];
+	        if(!empty($favorite->request['description'])) {
+            	$request->description = $favorite->request['description'];
 	        }
-	        if(!empty($favorite['request']['authorization'])) {
-		        $request->authorization = $favorite['request']['authorization'];
+	        if(!empty($favorite->request['authorization'])) {
+		        $request->authorization = $favorite->request['authorization'];
 	        }
             $list[$group][] = $request;
         }
