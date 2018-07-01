@@ -6,13 +6,9 @@ use Yii;
 use yii\web\Controller;
 use yii2lab\helpers\yii\ArrayHelper;
 use yii2lab\rest\domain\entities\RestEntity;
-use yii2lab\rest\web\helpers\AdapterHelper;
 use yii2lab\rest\web\helpers\RestHelper;
-use yii2lab\rest\web\models\RequestEvent;
 use yii2lab\rest\web\models\RequestForm;
-use yii2lab\rest\web\models\ResponseEvent;
 use yii2lab\rest\web\models\ResponseRecord;
-use yii2lab\rest\web\Module;
 
 /**
  * Class RequestController
@@ -39,11 +35,10 @@ class RequestController extends Controller
 	        /** @var RestEntity $restEntity */
 	        $restEntity = Yii::$domain->rest->rest->oneByTag($tag);
 	        $model->setAttributes($restEntity->request);
-	        
         } elseif(Yii::$app->request->isPost) {
 	        $model->load(Yii::$app->request->post());
 	        if($model->validate()) {
-		        $record = $this->send($model);
+		        $record = RestHelper::sendRequest($model);
 		        $data = [
 			        'tag' => $tag,
 			        'module_id' => $this->module->id,
@@ -54,16 +49,19 @@ class RequestController extends Controller
         }
 	
 	    $model->addEmptyRows();
-        $history = $this->module->storage->getHistory();
-        $collection = $this->module->storage->getCollection();
-
+	    $history = Yii::$domain->rest->rest->allHistory();
+        $collection = Yii::$domain->rest->rest->allFavorite();
+	
+	    $history = ArrayHelper::index($history, 'tag');
+        $collection = ArrayHelper::index($collection, 'tag');
+	    
         foreach ($history as $_tag => &$item) {
-            $item['in_collection'] = isset($collection[$_tag]);
+            $item->in_collection = isset($collection[$_tag]);
         }
         unset($item);
         // TODO Grouping will move to the config level
         $collection = ArrayHelper::group($collection, function ($row) {
-            if (preg_match('|[^/]+|', ltrim($row['endpoint'], '/'), $m)) {
+            if (preg_match('|[^/]+|', ltrim($row->endpoint, '/'), $m)) {
                 return $m[0];
             } else {
                 return 'common';
@@ -80,26 +78,4 @@ class RequestController extends Controller
         ]);
     }
 
-    /**
-     * @param RequestForm $model
-     * @return ResponseRecord
-     */
-    protected function send(RequestForm $model)
-    {
-        $this->module->trigger(Module::EVENT_ON_REQUEST, new RequestEvent([
-            'form' => $model,
-        ]));
-	
-	    $requestEntity = AdapterHelper::createRequestEntityFromForm($model);
-	
-	    //$response = RestHelper::sendRequest($requestEntity);
-        $record = RestHelper::sendRequest($requestEntity);
-
-        $this->module->trigger(Module::EVENT_ON_RESPONSE, new ResponseEvent([
-            'form' => $model,
-            'record' => $record,
-        ]));
-
-        return $record;
-    }
 }

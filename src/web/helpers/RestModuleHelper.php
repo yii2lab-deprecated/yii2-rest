@@ -18,7 +18,6 @@ class RestModuleHelper {
 				'class' => 'yii2lab\rest\web\Module',
 				'baseUrl' => env('url.api') . $version,
 				'as access' => Behavior::access(PermissionEnum::REST_CLIENT_ALL),
-				'storage' => Driver::primary() == Driver::FILEDB ? 'yii2lab\rest\web\storages\FiledbStorage' : 'yii2lab\rest\web\storages\DbStorage',
 			];
 		}
 		return $config;

@@ -125,53 +125,6 @@ class RequestForm extends Model
     }
 
     /**
-     * @return string
-     */
-    public function getUri()
-    {
-        if (($query = $this->getQueryString()) !== '') {
-            return  $this->endpoint . '?' . $query;
-        } else {
-            return  $this->endpoint;
-        }
-    }
-
-    /**
-     * @return string
-     */
-    public function getQueryString()
-    {
-        $this->buildQuery($this->queryKeys, $this->queryValues, $this->queryActives, $query);
-        return $query;
-    }
-
-    /**
-     * @return array
-     */
-    public function getBodyParams()
-    {
-        $this->buildQuery($this->bodyKeys, $this->bodyValues, $this->bodyActives, $query);
-        parse_str($query, $data);
-
-        return $data;
-    }
-
-    /**
-     * @return array
-     */
-    public function getHeaders()
-    {
-        $headers = [];
-        foreach ($this->headerKeys as $i => $key) {
-            if ($this->headerActives[$i]) {
-                $headers[$key][] = $this->headerValues[$i];
-            }
-        }
-
-        return $headers;
-    }
-
-    /**
      * @param string[] $keys
      * @param string[] $values
      * @param boolean[] $actives
@@ -231,26 +184,4 @@ class RequestForm extends Model
         }
     }
 
-    /**
-     * @param string[] $keys
-     * @param string[] $values
-     * @param boolean[] $actives
-     * @param string $query
-     * @return bool
-     */
-    private function buildQuery($keys, $values, $actives, &$query)
-    {
-        $couples = [];
-        foreach ($keys as $i => $key) {
-            if ($actives[$i]) {
-                $couples[] =
-                    str_replace(['%5B', '%5D'], ['[', ']'], urlencode($key)) .
-                    '=' .
-                    urlencode($values[$i]);
-            }
-        }
-        $query = join('&', $couples);
-
-        return $query !== '';
-    }
 }

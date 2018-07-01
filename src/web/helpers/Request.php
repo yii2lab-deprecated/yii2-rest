@@ -4,10 +4,10 @@ namespace yii2lab\rest\web\helpers;
 
 use Yii;
 use yii\httpclient\Exception;
+use yii\httpclient\Response;
 use yii\web\NotFoundHttpException;
 use yii2lab\rest\domain\entities\RequestEntity;
 use yii2lab\rest\web\models\ResponseRecord;
-use yii2lab\rest\web\models\RequestForm;
 
 class Request
 {
@@ -25,11 +25,14 @@ class Request
 
     static public function httpRequest(RequestEntity $model)
     {
+	    /** @var \yii2lab\rest\web\Module $module */
+	    $module = Yii::$app->controller->module;
         /** @var \yii\httpclient\Client $client */
-        $client = Yii::createObject(Yii::$app->controller->module->clientConfig);
-        $client->baseUrl = Yii::$app->controller->module->baseUrl;
+        $client = Yii::createObject($module->clientConfig);
+        $client->baseUrl = $module->baseUrl;
         try {
-			$response = $client->createRequest()
+	        /** @var Response $response */
+	        $response = $client->createRequest()
 				->setMethod($model->method)
 				->setUrl($model->uri)
 				->setData($model->data)
@@ -47,29 +50,7 @@ class Request
         return $response;
     }
 
-    static public function createRequestFrom($endpoint, $method = 'get', $body = [], $header = [])
-    {
-        $modelAuth = Yii::createObject(RequestForm::class);
-        $modelAuth->method = $method;
-        $modelAuth->endpoint = $endpoint;
-        if(!empty($body)) {
-            foreach($body as $bodyKey => $bodyValue) {
-                $modelAuth->bodyKeys[] = $bodyKey;
-                $modelAuth->bodyValues[] = $bodyValue;
-                $modelAuth->bodyActives[] = 1;
-            }
-        }
-        if(!empty($header)) {
-            foreach($header as $headerKey => $headerValue) {
-                $modelAuth->headerKeys[] = $headerKey;
-                $modelAuth->headerValues[] = $headerValue;
-                $modelAuth->headerActives[] = 1;
-            }
-        }
-        return $modelAuth;
-    }
-
-    static protected function createResponseRecord($response)
+    private static function createResponseRecord(Response $response)
     {
         $record = new ResponseRecord();
         $record->status = $response->getStatusCode();

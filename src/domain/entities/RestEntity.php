@@ -21,6 +21,7 @@ use yii2lab\helpers\yii\ArrayHelper;
  * @property $status
  * @property $stored_at
  * @property $favorited_at
+ * @property $in_collection
  */
 class RestEntity extends BaseEntity {
 	
@@ -35,6 +36,17 @@ class RestEntity extends BaseEntity {
 	protected $status;
 	protected $stored_at;
 	protected $favorited_at;
+	protected $in_collection;
+	
+	public function getId() {
+		return $this->id;
+	}
+	
+	public function setId($value) {
+		if(empty($this->id)) {
+			$this->id = $value;
+		}
+	}
 	
 	public function getMethod() {
 		return $this->getFieldValue('method');
@@ -49,23 +61,24 @@ class RestEntity extends BaseEntity {
 	}
 	
 	private function getFieldValue($name) {
-		if(empty($this->{$name}) && !empty($this->request[ $name ])) {
+		if(!empty($this->request[ $name ])) {
 			$this->{$name} = $this->request[ $name ];
 		}
 		return $this->{$name};
 	}
 	
+	private function forgeRequest($request, $name) {
+		if(empty($request[$name]) && !empty($this->{$name})) {
+			$request[$name] = $this->{$name};
+		}
+		return $request;
+	}
+	
 	public function getRequest() {
 		$request = $this->request;
-		if(empty($request['method']) && !empty($this->method)) {
-			$request['method'] = $this->method;
-		}
-		if(empty($request['endpoint']) && !empty($this->endpoint)) {
-			$request['endpoint'] = $this->endpoint;
-		}
-		if(empty($request['description']) && !empty($this->description)) {
-			$request['description'] = $this->description;
-		}
+		$request = $this->forgeRequest($request, 'method');
+		$request = $this->forgeRequest($request, 'endpoint');
+		$request = $this->forgeRequest($request, 'description');
 		return $request;
 	}
 	

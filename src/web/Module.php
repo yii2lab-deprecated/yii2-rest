@@ -60,10 +60,6 @@ class Module extends \yii\base\Module implements BootstrapInterface
         'text/html' => 'yii2lab\rest\web\formatters\HtmlFormatter',
     ];
     /**
-     * @var \yii2lab\rest\web\storages\Storage|array|string
-     */
-    private $storage = 'yii2lab\rest\web\storages\DbStorage';
-    /**
      * @inheritdoc
      */
     public function bootstrap($app)
@@ -133,23 +129,4 @@ class Module extends \yii\base\Module implements BootstrapInterface
         return false;
     }
 
-    /**
-     * @param \yii2lab\rest\web\storages\Storage|array|string $storage
-     */
-    public function setStorage($storage)
-    {
-        $this->storage = $storage;
-    }
-
-    /**
-     * @return \yii2lab\rest\web\storages\Storage
-     */
-    public function getStorage()
-    {
-        if (!is_object($this->storage)) {
-            $this->storage = Yii::createObject($this->storage, [$this]);
-        }
-
-        return $this->storage;
-    }
 }

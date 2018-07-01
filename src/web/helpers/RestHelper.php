@@ -4,19 +4,21 @@ namespace yii2lab\rest\web\helpers;
 
 use yii2lab\misc\enums\HttpHeaderEnum;
 use yii2lab\rest\domain\entities\RequestEntity;
+use yii2lab\rest\web\models\RequestForm;
 
 class RestHelper {
 	
-	public static function sendRequest(RequestEntity $model) {
-		$login = $model->authorization;
+	public static function sendRequest(RequestForm $model) {
+		$requestEntity = AdapterHelper::createRequestEntityFromForm($model);
+		$login = $requestEntity->authorization;
 		if(empty($login)) {
-			$record = Request::send($model);
+			$record = Request::send($requestEntity);
 			return $record;
 		}
-		$record = self::sendRequestWithToken($model);
+		$record = self::sendRequestWithToken($requestEntity);
 		if($record->status == 401) {
 			Token::save($login, null);
-			$record = self::sendRequestWithToken($model);
+			$record = self::sendRequestWithToken($requestEntity);
 		}
 		return $record;
 	}

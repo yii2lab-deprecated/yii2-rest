@@ -35,21 +35,15 @@ class HistoryController extends Controller
     }
     public function actionDelete($tag)
     {
-        if ($this->module->storage->removeFromHistory($tag)) {
-	        Yii::$domain->navigation->alert->create('Request was removed from history successfully.', Alert::TYPE_SUCCESS);
-            return $this->redirect(['request/create']);
-        } else {
-            throw new NotFoundHttpException('Request not found.');
-        }
+	    Yii::$domain->rest->rest->removeByTag($tag);
+	    Yii::$domain->navigation->alert->create('Request was removed from history successfully.', Alert::TYPE_SUCCESS);
+	    return $this->redirect(['request/create']);
     }
 
     public function actionClear()
     {
-        if ($count = $this->module->storage->clearHistory()) {
-	        Yii::$domain->navigation->alert->create('History was cleared successfully.', Alert::TYPE_SUCCESS);
-        } else {
-	        Yii::$domain->navigation->alert->create('History already is empty.', Alert::TYPE_WARNING);
-        }
+	    Yii::$domain->rest->rest->clearHistory();
+    	Yii::$domain->navigation->alert->create('History was cleared successfully.', Alert::TYPE_SUCCESS);
         return $this->redirect(['request/create']);
     }
 }

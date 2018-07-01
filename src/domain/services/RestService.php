@@ -2,16 +2,13 @@
 
 namespace yii2lab\rest\domain\services;
 
-use Yii;
 use yii\web\NotFoundHttpException;
 use yii2lab\domain\data\Query;
 use yii2lab\domain\services\base\BaseActiveService;
 use yii2lab\helpers\yii\ArrayHelper;
-use yii2lab\helpers\yii\FileHelper;
 use yii2lab\rest\domain\entities\RestEntity;
 use yii2lab\rest\domain\helpers\MiscHelper;
 use yii2lab\rest\domain\repositories\ar\RestRepository;
-use yii2lab\store\Store;
 use yii2lab\store\StoreFile;
 
 /**
@@ -58,6 +55,13 @@ class RestService extends BaseActiveService {
 		}
 	}
 	
+	public function addToCollection($tag) {
+		/** @var RestEntity $entity */
+		$entity = $this->oneByTag($tag);
+		$entity->favorited_at = TIMESTAMP;
+		$this->update($entity);
+	}
+	
 	public function allFavorite() {
 		$apiVersion = MiscHelper::currentApiVersion();
 		return $this->repository->allFavorite($apiVersion);
@@ -79,7 +83,9 @@ class RestService extends BaseActiveService {
 	}
 	
 	public function removeByTag($tag) {
+		
 		$entity = $this->oneByTag($tag);
+		//prr($entity,1,1);
 		return $this->repository->delete($entity);
 	}
 	
@@ -92,8 +98,10 @@ class RestService extends BaseActiveService {
 		/** @var RestEntity $entity */
 		$entity = $this->repository->forgeEntity($data);
 		try {
-			$entity = $this->oneByTag($entity->tag);
-			$this->update($entity);
+			$entityOld = $this->oneByTag($entity->tag);
+			$entityOld->load($data);
+			//prr($entityOld,1,1);
+			$this->update($entityOld);
 		} catch(NotFoundHttpException $e) {
 			$entity = $this->create($entity->toArray());
 		}
