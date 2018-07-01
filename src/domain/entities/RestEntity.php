@@ -2,15 +2,17 @@
 
 namespace yii2lab\rest\domain\entities;
 
-use yii2lab\domain\BaseEntity;
+use yii\web\ServerErrorHttpException;
+use yii2lab\domain\BaseEntityWithId;
 use yii2lab\helpers\yii\ArrayHelper;
 
 /**
  * Class RestEntity
  *
+ * @inheritdoc
+ *
  * @package yii2lab\rest\domain\entities
  *
- * @property $id
  * @property $tag
  * @property $module_id
  * @property $request
@@ -22,10 +24,10 @@ use yii2lab\helpers\yii\ArrayHelper;
  * @property $stored_at
  * @property $favorited_at
  * @property $in_collection
+ * @property $authorization
  */
-class RestEntity extends BaseEntity {
+class RestEntity extends BaseEntityWithId {
 	
-	protected $id;
 	protected $tag;
 	protected $module_id;
 	protected $request;
@@ -37,15 +39,10 @@ class RestEntity extends BaseEntity {
 	protected $stored_at;
 	protected $favorited_at;
 	protected $in_collection;
+	protected $authorization;
 	
-	public function getId() {
-		return $this->id;
-	}
-	
-	public function setId($value) {
-		if(empty($this->id)) {
-			$this->id = $value;
-		}
+	public function getInCollection() {
+		return $this->favorited_at > 0;
 	}
 	
 	public function getMethod() {
@@ -58,6 +55,10 @@ class RestEntity extends BaseEntity {
 	
 	public function getDescription() {
 		return $this->getFieldValue('description');
+	}
+	
+	public function getAuthorization() {
+		return $this->getFieldValue('authorization');
 	}
 	
 	private function getFieldValue($name) {
@@ -108,6 +109,9 @@ class RestEntity extends BaseEntity {
 		ksort($data['request']);
 		$serializedData = serialize($data);
 		$hash = hash('crc32b', $serializedData);
+		/*if($hash != $this->tag) {
+			throw new ServerErrorHttpException("{$hash} != {$this->tag}");
+		}*/
 		return $hash;
 	}
 }

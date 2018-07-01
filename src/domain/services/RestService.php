@@ -83,9 +83,7 @@ class RestService extends BaseActiveService {
 	}
 	
 	public function removeByTag($tag) {
-		
 		$entity = $this->oneByTag($tag);
-		//prr($entity,1,1);
 		return $this->repository->delete($entity);
 	}
 	
@@ -100,7 +98,6 @@ class RestService extends BaseActiveService {
 		try {
 			$entityOld = $this->oneByTag($entity->tag);
 			$entityOld->load($data);
-			//prr($entityOld,1,1);
 			$this->update($entityOld);
 		} catch(NotFoundHttpException $e) {
 			$entity = $this->create($entity->toArray());

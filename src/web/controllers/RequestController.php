@@ -6,6 +6,7 @@ use Yii;
 use yii\web\Controller;
 use yii2lab\helpers\yii\ArrayHelper;
 use yii2lab\rest\domain\entities\RestEntity;
+use yii2lab\rest\web\helpers\CollectionHelper;
 use yii2lab\rest\web\helpers\RestHelper;
 use yii2lab\rest\web\models\RequestForm;
 use yii2lab\rest\web\models\ResponseRecord;
@@ -40,11 +41,11 @@ class RequestController extends Controller
 	        if($model->validate()) {
 		        $record = RestHelper::sendRequest($model);
 		        $data = [
-			        'tag' => $tag,
 			        'module_id' => $this->module->id,
 			        'request' => $model->toArray(),
 		        ];
-		        Yii::$domain->rest->rest->createOrUpdate($data);
+		        $restEntity = Yii::$domain->rest->rest->createOrUpdate($data);
+		        $tag = $restEntity->tag;
 	        }
         }
 	
@@ -53,20 +54,9 @@ class RequestController extends Controller
         $collection = Yii::$domain->rest->rest->allFavorite();
 	
 	    $history = ArrayHelper::index($history, 'tag');
-        $collection = ArrayHelper::index($collection, 'tag');
-	    
-        foreach ($history as $_tag => &$item) {
-            $item->in_collection = isset($collection[$_tag]);
-        }
-        unset($item);
-        // TODO Grouping will move to the config level
-        $collection = ArrayHelper::group($collection, function ($row) {
-            if (preg_match('|[^/]+|', ltrim($row->endpoint, '/'), $m)) {
-                return $m[0];
-            } else {
-                return 'common';
-            }
-        });
+	    $collection = ArrayHelper::index($collection, 'tag');
+	
+	    $collection = CollectionHelper::prependCollection($collection);
 
         return $this->render('create', [
             'tag' => $tag,

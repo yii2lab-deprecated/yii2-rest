@@ -10,6 +10,8 @@ use yii\helpers\Url;
  * @var \yii2lab\rest\domain\entities\RestEntity         $row
  */
 
+$tag = $row->tag;
+
 $options = ['data-tag' => $tag];
 
 if ($row->status < 300) {
@@ -53,7 +55,7 @@ if(isset($row->request)) {
                         <span class="request-method label label-info" style="width: 100px !important; background-color: <?= $methodColor ?>;">
                             <?= Html::encode($row->method) ?>
 	                        
-	                        <?php if (!empty($row->request['authorization'])): ?>
+	                        <?php if (!empty($row->authorization)): ?>
                             &nbsp;
                             <span class="glyphicon glyphicon-lock" title="Authentication required"></span>
 	                        <?php endif; ?>
@@ -70,7 +72,7 @@ if(isset($row->request)) {
 		<?php endif; ?>
     </a>
     <div class="actions">
-		<?php if (isset($row->in_collection) && !$row->in_collection): ?>
+		<?php if ($row->in_collection === false): ?>
 			<?= Html::a('&plus;', ['collection/link', 'tag' => $tag], [
 				'data-method' => 'post',
 				'title' => 'Move to collection.',

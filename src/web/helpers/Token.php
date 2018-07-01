@@ -2,8 +2,6 @@
 
 namespace yii2lab\rest\web\helpers;
 
-use Yii;
-use yii2lab\helpers\yii\FileHelper;
 use yii2lab\store\Store;
 
 class Token
