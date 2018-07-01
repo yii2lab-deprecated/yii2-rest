@@ -5,13 +5,14 @@ namespace yii2lab\rest\web\helpers;
 use Yii;
 use yii\httpclient\Exception;
 use yii\web\NotFoundHttpException;
+use yii2lab\rest\domain\entities\RequestEntity;
 use yii2lab\rest\web\models\ResponseRecord;
 use yii2lab\rest\web\models\RequestForm;
 
 class Request
 {
 
-    static public function send($model)
+    static public function send(RequestEntity $model)
     {
         $begin = microtime(true);
         $response = self::httpRequest($model);
@@ -22,7 +23,7 @@ class Request
         return $record;
     }
 
-    static public function httpRequest($model)
+    static public function httpRequest(RequestEntity $model)
     {
         /** @var \yii\httpclient\Client $client */
         $client = Yii::createObject(Yii::$app->controller->module->clientConfig);
@@ -30,9 +31,9 @@ class Request
         try {
 			$response = $client->createRequest()
 				->setMethod($model->method)
-				->setUrl($model->getUri())
-				->setData($model->getBodyParams())
-				->setHeaders($model->getHeaders())
+				->setUrl($model->uri)
+				->setData($model->data)
+				->setHeaders($model->headers)
 				->send();
 		} catch(Exception $e) {
         	if($e->getCode() == 2) {

@@ -19,6 +19,11 @@ class MiscHelper {
 		}
     }
 	
+	static function moduleId($version = null) {
+		$version = $version ?: self::currentApiVersion();
+		return "rest-v{$version}";
+	}
+ 
 	static function collectionName($version = null) {
 		$version = $version ?: self::currentApiVersion();
 		return Yii::$app->name . SPC . 'v' . $version;

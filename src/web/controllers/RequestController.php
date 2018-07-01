@@ -4,15 +4,15 @@ namespace yii2lab\rest\web\controllers;
 
 use Yii;
 use yii\web\Controller;
-use yii\web\NotFoundHttpException;
 use yii2lab\helpers\yii\ArrayHelper;
+use yii2lab\rest\domain\entities\RestEntity;
+use yii2lab\rest\web\helpers\AdapterHelper;
 use yii2lab\rest\web\helpers\RestHelper;
 use yii2lab\rest\web\models\RequestEvent;
 use yii2lab\rest\web\models\RequestForm;
 use yii2lab\rest\web\models\ResponseEvent;
 use yii2lab\rest\web\models\ResponseRecord;
 use yii2lab\rest\web\Module;
-use yii2lab\rest\web\helpers\Authorization;
 
 /**
  * Class RequestController
@@ -34,26 +34,26 @@ class RequestController extends Controller
     {
         /** @var RequestForm $model */
         $model = Yii::createObject(RequestForm::class);
-        $record = new ResponseRecord();
-
-        if (
-            $tag !== null &&
-            !$this->module->storage->load($tag, $model, $record)
-        ) {
-            throw new NotFoundHttpException('Request not found.');
+	    $record = new ResponseRecord();
+        if($tag !== null) {
+	        /** @var RestEntity $restEntity */
+	        $restEntity = Yii::$domain->rest->rest->oneByTag($tag);
+	        $model->setAttributes($restEntity->request);
+	        
+        } elseif(Yii::$app->request->isPost) {
+	        $model->load(Yii::$app->request->post());
+	        if($model->validate()) {
+		        $record = $this->send($model);
+		        $data = [
+			        'tag' => $tag,
+			        'module_id' => $this->module->id,
+			        'request' => $model->toArray(),
+		        ];
+		        Yii::$domain->rest->rest->createOrUpdate($data);
+	        }
         }
-
-        if (
-            $model->load(Yii::$app->request->post()) &&
-            $model->validate()
-        ) {
-            $record = $this->send($model);
-            $tag = $this->module->storage->save($model, $record);
-
-            //return $this->redirect(['create', 'tag' => $tag, '#' => 'response']);
-        }
-
-        $model->addEmptyRows();
+	
+	    $model->addEmptyRows();
         $history = $this->module->storage->getHistory();
         $collection = $this->module->storage->getCollection();
 
@@ -89,8 +89,11 @@ class RequestController extends Controller
         $this->module->trigger(Module::EVENT_ON_REQUEST, new RequestEvent([
             'form' => $model,
         ]));
-
-        $record = RestHelper::sendRequest($model);
+	
+	    $requestEntity = AdapterHelper::createRequestEntityFromForm($model);
+	
+	    //$response = RestHelper::sendRequest($requestEntity);
+        $record = RestHelper::sendRequest($requestEntity);
 
         $this->module->trigger(Module::EVENT_ON_RESPONSE, new ResponseEvent([
             'form' => $model,

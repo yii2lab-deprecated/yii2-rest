@@ -26,4 +26,12 @@ class Rest extends ActiveRecord
 		];
 	}
 	
+	public function fields() {
+		$fields = parent::fields();
+		$fields['response'] = function ($model) {
+			return [];
+		};
+		return $fields;
+	}
+	
 }

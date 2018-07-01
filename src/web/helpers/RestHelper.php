@@ -3,15 +3,13 @@
 namespace yii2lab\rest\web\helpers;
 
 use yii2lab\misc\enums\HttpHeaderEnum;
-use yii2lab\rest\web\models\RequestForm;
+use yii2lab\rest\domain\entities\RequestEntity;
 
-class RestHelper
-{
+class RestHelper {
 	
-	public static function sendRequest(RequestForm $model)
-	{
+	public static function sendRequest(RequestEntity $model) {
 		$login = $model->authorization;
-		if(empty($model->authorization)) {
+		if(empty($login)) {
 			$record = Request::send($model);
 			return $record;
 		}
@@ -23,7 +21,7 @@ class RestHelper
 		return $record;
 	}
 	
-	private static function sendRequestWithToken($model) {
+	private static function sendRequestWithToken(RequestEntity $model) {
 		$token = self::getTokenByLogin($model->authorization);
 		$modelAuth = self::putTokenInModel($model, $token);
 		$record = Request::send($modelAuth);
@@ -41,15 +39,14 @@ class RestHelper
 		return $token;
 	}
 	
-	private static function putTokenInModel(RequestForm $model, $token)
-	{
+	private static function putTokenInModel(RequestEntity $model, $token) {
 		$modelAuth = clone $model;
 		if(!empty($token)) {
-			$modelAuth->headerKeys[] = HttpHeaderEnum::AUTHORIZATION;
-			$modelAuth->headerValues[] = $token;
-			$modelAuth->headerActives[] = 1;
+			$headers = $modelAuth->headers;
+			$headers[HttpHeaderEnum::AUTHORIZATION] = $token;
+			$modelAuth->headers = $headers;
 		}
 		return $modelAuth;
 	}
-
+	
 }

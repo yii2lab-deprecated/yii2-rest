@@ -2,10 +2,14 @@
 
 namespace yii2lab\rest\web\storages;
 
+use Yii;
 use yii\db\Connection;
 use yii\db\IntegrityException;
 use yii\db\Query;
 use yii\di\Instance;
+use yii\web\NotFoundHttpException;
+use yii2lab\helpers\yii\ArrayHelper;
+use yii2lab\rest\domain\entities\RestEntity;
 
 /**
  * Class DbStorage
@@ -54,11 +58,18 @@ class DbStorage extends Storage
      */
     public function exists($tag)
     {
-        return (new Query())
+	    try {
+		    /** @var RestEntity $one */
+		    $one = Yii::$domain->rest->rest->oneByTag($tag);
+		    return true;
+	    } catch(NotFoundHttpException $e) {
+		    return false;
+	    }
+        /*return (new Query())
             ->from($this->tableName)
             ->andWhere(['tag' => $tag])
             ->andWhere(['module_id' => $this->module->id])
-            ->exists($this->db);
+            ->exists($this->db);*/
     }
 
     /**
@@ -66,19 +77,29 @@ class DbStorage extends Storage
      */
     protected function readData($tag, &$request, &$response)
     {
-        $query = (new Query())
+        try {
+	        /** @var RestEntity $one */
+	        $one = Yii::$domain->rest->rest->oneByTag($tag);
+	        $request = $one->request;
+	        $response = $one->response;
+	        return true;
+        } catch(NotFoundHttpException $e) {
+	        return false;
+        }
+	    /*
+	    $query = (new Query())
             ->select(['request', 'response'])
             ->from($this->tableName)
             ->andWhere(['tag' => $tag])
             ->andWhere(['module_id' => $this->module->id]);
-
+		prr($query->one($this->db),1,1);
         if ($row = $query->one($this->db)) {
             $request = unserialize($row['request']);
             $response = unserialize($row['response']);
             return true;
         } else {
             return false;
-        }
+        }*/
     }
 
     /**
@@ -86,10 +107,20 @@ class DbStorage extends Storage
      */
     protected function writeData($tag, $request, $response)
     {
-        if(!empty($this->exists($tag))) {
+     
+    	if(!empty($this->exists($tag))) {
             return false;
         }
-        try {
+	    //prr($tag,1,1);
+        $data = [
+	        'tag' => $tag,
+	        'module_id' => $this->module->id,
+	        'request' => serialize($request),
+	        //'response' => $response,
+        ];
+	    Yii::$domain->rest->rest->create($data);
+	    
+        /*try {
 	        $this->db->createCommand()
 		        ->insert($this->tableName, [
 			        'tag' => $tag,
@@ -100,7 +131,7 @@ class DbStorage extends Storage
 		        ->execute();
         } catch (IntegrityException $e) {
     		
-        }
+        }*/
     }
 
     /**
@@ -108,12 +139,14 @@ class DbStorage extends Storage
      */
     protected function removeData($tag)
     {
-        $this->db->createCommand()
+	    //prr($tag,1,1);
+	    Yii::$domain->rest->rest->removeByTag($tag);
+        /*$this->db->createCommand()
             ->delete($this->tableName, [
                 'tag' => $tag,
                 'module_id' => $this->module->id,
             ])
-            ->execute();
+            ->execute();*/
     }
 
     /**
@@ -121,7 +154,12 @@ class DbStorage extends Storage
      */
     protected function readHistory()
     {
-        $query = (new Query())
+	    $collection = Yii::$domain->rest->rest->allHistory();
+	    $array = ArrayHelper::toArray($collection);
+	    $array = ArrayHelper::index($array, 'tag');
+	    return $array;
+	    
+    	/*$query = (new Query())
             //->select(['tag', 'method', 'endpoint', 'description', 'status', 'time' => 'stored_at'])
             ->from($this->tableName)
             ->andWhere(['module_id' => $this->module->id])
@@ -134,8 +172,7 @@ class DbStorage extends Storage
             unset($row['tag']);
         }
         unset($row);
-
-        return $rows;
+        return $rows;*/
     }
 
     /**
@@ -143,7 +180,20 @@ class DbStorage extends Storage
      */
     protected function writeHistory($rows)
     {
-    	$this->db->transaction(function () use ($rows) {
+	    //prr('writeHistory');
+	   // prr($rows,1,1);
+	    foreach($rows as $tag => $row) {
+	    	if(!$this->exists($tag)) {
+			    /** @var RestEntity $entity */
+			    $entity = Yii::$domain->rest->rest->oneByTag($tag);
+			    $entity->favorited_at = TIMESTAMP;
+			    // prr($entity,1,1);
+			    Yii::$domain->rest->rest->update($entity);
+			    //prr($entity,1,1);
+		    }
+		    
+	    }
+    	/*$this->db->transaction(function () use ($rows) {
             $old = $this->readHistory();
             foreach (array_diff_key($old, $rows) as $tag => $row) {
                 $this->db->createCommand()
@@ -163,7 +213,7 @@ class DbStorage extends Storage
                     ])
                     ->execute();
             }
-        });
+        });*/
     }
 
     /**
@@ -171,7 +221,12 @@ class DbStorage extends Storage
      */
     protected function readCollection()
     {
-        $query = (new Query())
+	    $collection = Yii::$domain->rest->rest->allFavorite();
+	    $array = ArrayHelper::toArray($collection);
+	    $array = ArrayHelper::index($array, 'tag');
+	    return $array;
+    	
+    	/*$query = (new Query())
             //->select(['tag', 'method', 'endpoint', 'description', 'status', 'time' => 'favorited_at'])
             ->from($this->tableName)
             ->andWhere(['module_id' => $this->module->id])
@@ -185,7 +240,7 @@ class DbStorage extends Storage
         }
         unset($row);
 
-        return $rows;
+        return $rows;*/
     }
 
     /**
@@ -193,7 +248,9 @@ class DbStorage extends Storage
      */
     protected function writeCollection($rows)
     {
-        $this->db->transaction(function () use ($rows) {
+	    prr('writeCollection');
+    	prr($rows,1,1);
+        /*$this->db->transaction(function () use ($rows) {
             $old = $this->readCollection();
             foreach (array_diff_key($old, $rows) as $tag => $row) {
                 $this->db->createCommand()
@@ -213,7 +270,7 @@ class DbStorage extends Storage
                     ])
                     ->execute();
             }
-        });
+        });*/
     }
 
     /**
@@ -221,9 +278,11 @@ class DbStorage extends Storage
      */
     public function clearHistory()
     {
-        return $this->db->transaction(function () {
+	    Yii::$domain->rest->rest->clearHistory();
+	    return true;
+    	/*return $this->db->transaction(function () {
             return parent::clearHistory();
-        });
+        });*/
     }
 
     /**
