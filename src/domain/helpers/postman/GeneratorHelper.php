@@ -5,6 +5,7 @@ namespace yii2lab\rest\domain\helpers\postman;
 use yii2lab\helpers\StringHelper;
 use yii2lab\misc\enums\HttpMethodEnum;
 use yii2lab\rest\domain\entities\RequestEntity;
+use yii2lab\rest\domain\helpers\MiscHelper;
 
 class GeneratorHelper {
 	
@@ -46,7 +47,7 @@ class GeneratorHelper {
 		$result = [];
 		$headers = $requestEntity->headers;
 		if($requestEntity->authorization) {
-			$headers['Authorization'] = '{{auth_token}}';
+			$headers['Authorization'] = '{{'.MiscHelper::collectionNameFormatId().'-token}}';
 		}
 		if($headers) {
 			foreach($headers as $key => $value) {
@@ -80,10 +81,11 @@ class GeneratorHelper {
 	}
 	
 	public static function genUrl(RequestEntity $requestEntity) {
+		$hostVariable = '{{'.MiscHelper::collectionNameFormatId().'-host}}';
 		$url = [
-			'raw' => '{{host}}/' . $requestEntity->uri,
+			'raw' => $hostVariable . '/' . $requestEntity->uri,
 			'host' => [
-				'{{host}}',
+				$hostVariable,
 			],
 			'path' => explode('/', $requestEntity->uri),
 		];

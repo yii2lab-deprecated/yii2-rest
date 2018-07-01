@@ -3,7 +3,6 @@
 namespace yii2lab\rest\web\controllers;
 
 use Yii;
-use yii\helpers\Inflector;
 use yii\web\Controller;
 use yii2lab\helpers\Behavior;
 use yii2lab\navigation\domain\widgets\Alert;
@@ -52,9 +51,7 @@ class CollectionController extends Controller
 	public function actionExportPostman($postmanVersion)
 	{
 		$apiVersion = MiscHelper::currentApiVersion();
-		$collectionName = MiscHelper::collectionName($apiVersion);
-		$collectionName = Inflector::camelize($collectionName);
-		$collectionName = Inflector::camel2id($collectionName);
+		$collectionName = MiscHelper::collectionNameFormatId();
 		$fileName = $collectionName .'-' . date('Y-m-d-H-i-s') . '.json';
 		return Yii::$app->response->sendContentAsFile(
 			PostmanHelper::generateJson($apiVersion, $postmanVersion),

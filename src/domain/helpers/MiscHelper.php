@@ -3,6 +3,7 @@
 namespace yii2lab\rest\domain\helpers;
 
 use Yii;
+use yii\helpers\Inflector;
 
 class MiscHelper {
 	
@@ -14,9 +15,7 @@ class MiscHelper {
 		}
 		preg_match('#v(\d)#', Yii::$app->controller->module->id, $matches);
 		$apiVersion = $matches[1];
-		if(!empty($apiVersion)) {
-			return $apiVersion;
-		}
+		return $apiVersion;
     }
 	
 	static function moduleId($version = null) {
@@ -29,4 +28,11 @@ class MiscHelper {
 		return Yii::$app->name . SPC . 'v' . $version;
 	}
 	
+	static function collectionNameFormatId() {
+		$apiVersion = MiscHelper::currentApiVersion();
+		$collectionName = MiscHelper::collectionName($apiVersion);
+		$collectionName = Inflector::camelize($collectionName);
+		$collectionName = Inflector::camel2id($collectionName);
+		return $collectionName;
+	}
 }

@@ -27,8 +27,6 @@ class PostmanHelper {
 	}
 	
 	private static function genFromCollection($groups, $apiVersion) {
-		
-		
 		$groupCollection = [];
 		foreach($groups as $groupName => $group) {
 			/** @var requestEntity $requestEntity */
