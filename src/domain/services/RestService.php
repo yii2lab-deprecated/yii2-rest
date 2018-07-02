@@ -22,7 +22,8 @@ class RestService extends BaseActiveService {
 	
 	public function normalizeTag() {
 		$q = Query::forge();
-		$q->andWhere('favorited_at');
+		///$q->andWhere('favorited_at');
+		$q->andWhere(['>', 'favorited_at', '0']);
 		$collection = $this->repository->all($q);
 		$this->repository->truncate();
 		$this->batchInsert($collection);

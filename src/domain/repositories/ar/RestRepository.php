@@ -19,7 +19,8 @@ class RestRepository extends BaseActiveArRepository {
 		if($apiVersion) {
 			$query->where('module_id', "rest-v{$apiVersion}");
 		}
-		$query->andWhere('favorited_at');
+		//$query->andWhere('favorited_at');
+		$query->andWhere(['>', 'favorited_at', '0']);
 		$collection = $this->all($query);
 		return $this->forgeEntity($collection);
 	}
