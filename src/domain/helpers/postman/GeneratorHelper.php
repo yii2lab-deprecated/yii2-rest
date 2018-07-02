@@ -9,6 +9,8 @@ use yii2lab\rest\domain\helpers\MiscHelper;
 
 class GeneratorHelper {
 	
+	private static $variableNames = [];
+	
 	public static function genRequest(RequestEntity $requestEntity) {
 		$result['method'] = $requestEntity->method;
 		$result['header'] = GeneratorHelper::genHeaders($requestEntity);
@@ -47,7 +49,7 @@ class GeneratorHelper {
 		$result = [];
 		$headers = $requestEntity->headers;
 		if($requestEntity->authorization) {
-			$headers['Authorization'] = '{{'.MiscHelper::collectionNameFormatId().'-token}}';
+			$headers['Authorization'] = self::genVariable('token');
 		}
 		if($headers) {
 			foreach($headers as $key => $value) {
@@ -81,7 +83,7 @@ class GeneratorHelper {
 	}
 	
 	public static function genUrl(RequestEntity $requestEntity) {
-		$hostVariable = '{{'.MiscHelper::collectionNameFormatId().'-host}}';
+		$hostVariable = self::genVariable('host');
 		$url = [
 			'raw' => $hostVariable . '/' . $requestEntity->uri,
 			'host' => [
@@ -102,4 +104,15 @@ class GeneratorHelper {
 		return $url;
 	}
 	
+	public static function genVariable($name) {
+		$scope = self::genPureVariable($name);
+		$result = '{{' . $scope . '}}';
+		return $result;
+	}
+	
+	public static function genPureVariable($name) {
+		$scope = MiscHelper::collectionNameFormatId() . '-' . $name;
+		self::$variableNames[] = $scope;
+		return $scope;
+	}
 }

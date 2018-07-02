@@ -12,15 +12,17 @@ use yii2lab\rest\domain\helpers\RouteHelper;
 
 class PostmanHelper {
 	
-	public static function generateJson($apiVersion, $postmanVersion = '2.1') {
+	const POSTMAN_VERSION = '2.1';
+	
+	public static function generateJson($apiVersion, $postmanVersion = self::POSTMAN_VERSION) {
 		$collection = PostmanHelper::generate($apiVersion, $postmanVersion);
 		$code = Json::encode($collection, JSON_PRETTY_PRINT);
 		return $code;
 	}
 	
-	public static function generate($apiVersion, $postmanVersion = '2.1') {
+	public static function generate($apiVersion, $postmanVersion = self::POSTMAN_VERSION) {
 		$all = RouteHelper::allFromRestClient($apiVersion);
-		if($postmanVersion == '2.1') {
+		if($postmanVersion == self::POSTMAN_VERSION) {
 			return PostmanHelper::genFromCollection($all, $apiVersion);
 		}
 		throw new ServerErrorHttpException("Postman version $postmanVersion not specified!");

@@ -12,7 +12,7 @@ use yii\helpers\Html;
         <?php foreach (array_reverse($items, true) as $tag => $row): ?>
 	        <?= $this->render('_item', [
 		        'type' => 'history',
-                'tag' => $tag,
+                //'tag' => $tag,
                 'row' => $row,
 		        'activeTag' => $activeTag,
 	        ]) ?>

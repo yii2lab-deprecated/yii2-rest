@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Html;
+use yii2lab\rest\domain\helpers\postman\PostmanHelper;
 
 /**
  * @var \yii\web\View $this
@@ -19,7 +20,7 @@ use yii\helpers\Html;
                     <?php foreach ($rows as $tag => $row): ?>
 	                    <?= $this->render('_item', [
 		                    'type' => 'collection',
-                            'tag' => $tag,
+                            //'tag' => $tag,
 		                    'row' => $row,
 		                    'activeTag' => $activeTag,
 	                    ]) ?>
@@ -33,19 +34,11 @@ use yii\helpers\Html;
             </div>
             <div>
 		        <?php if ($items): ?>
-			        <?= Html::a('Export Collection', ['collection/export'], [
-				        'class' => 'btn btn-block btn-default',
-				        'title' => 'Export collection to file.'
-			        ]) ?>
-			        <?= Html::a('Export Postman v2.1 Collection', ['collection/export-postman', 'postmanVersion' => '2.1'], [
+			        <?= Html::a('Export Postman v2.1 Collection', ['collection/export-postman', 'postmanVersion' => PostmanHelper::POSTMAN_VERSION], [
 				        'class' => 'btn btn-block btn-default',
 				        'title' => 'Export collection to file.'
 			        ]) ?>
 		        <?php endif; ?>
-		        <?= Html::a('Import Collection', ['collection/import'], [
-			        'class' => 'btn btn-block btn-default',
-			        'title' => 'Import collection from file.'
-		        ]) ?>
             </div>
         </li>
     </ul>

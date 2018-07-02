@@ -9,14 +9,6 @@ use yii2module\account\domain\v2\entities\TestEntity;
 
 class AuthorizationHelper {
 	
-	const TEST_SCRIPT_FOR_AUTH = '
-pm.test("Status code is 200", function () {
-    pm.response.to.have.status(200);
-});
-
-var authData = JSON.parse(responseBody);
-pm.globals.set("auth_token", authData.token);';
-	
 	public static function genAuthCollection() {
 		$items = [];
 		/** @var TestEntity[] $loginList */
@@ -26,7 +18,7 @@ pm.globals.set("auth_token", authData.token);';
 			$request = GeneratorHelper::genRequest($requestEntity);
 			$items[] = [
 				'name' => $requestEntity->uri . ($request['description'] ? " ({$request['description']})" : ''),
-				'event' => GeneratorHelper::genEvent(null, self::TEST_SCRIPT_FOR_AUTH),
+				'event' => GeneratorHelper::genEvent(null, self::genAuthScript()),
 				'request' => $request,
 				'response' => [],
 			];
@@ -44,5 +36,17 @@ pm.globals.set("auth_token", authData.token);';
 		];
 		$requestEntity->description = "by {$testEntity->login}";
 		return $requestEntity;
+	}
+	
+	private static function genAuthScript() {
+		$variableName = GeneratorHelper::genPureVariable('token');
+		$code = '
+pm.test("Status code is 200", function () {
+    pm.response.to.have.status(200);
+});
+
+var authData = JSON.parse(responseBody);
+pm.globals.set("' . $variableName . '", authData.token);';
+		return $code;
 	}
 }
