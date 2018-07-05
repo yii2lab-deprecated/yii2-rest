@@ -1,0 +1,15 @@
+type: x-custom
+#description: Авторизация с помощью TPS-сервера
+describedBy:
+    headers:
+        Authorization:
+            #description: |
+            #    Токен выглядит так:
+            #    ``c0bec554c5dda6a9cefc06dd6d65d3de``
+            type: string
+            example: "c0bec554c5dda6a9cefc06dd6d65d3de"
+    responses:
+        401:
+            description: "Аутентификация завершилась неудачно."
+        403:
+            description: "Аутентифицированному пользователю не разрешен доступ к указанной точке входа API"

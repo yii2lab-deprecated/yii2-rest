@@ -1,0 +1,10 @@
+[
+  {
+	"field": "amount",
+	"message": "Поле должно быть числом"
+  },
+  {
+	"field": "description",
+	"message": "Поле не может быть пустым"
+   }
+]

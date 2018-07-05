@@ -1,0 +1,38 @@
+responses:
+  200:
+    headers:
+      X-Pagination-Total-Count:
+        type: integer
+        description: Общее количество записей
+      X-Pagination-Page-Count:
+        type: integer
+        description: Общее количество страниц
+      X-Pagination-Current-Page:
+        type: integer
+        description: Текущая страница
+      X-Pagination-Per-Page:
+        type: integer
+        description: Количество записей на странице
+      Link:
+        type: string
+        description: Ссылки на текущую, следующую и последнюю страницу
+queryParameters:
+  per-page:
+    type: integer
+    description: Установить количество записей на странице
+    required: false
+    default: 20
+    minimum: 10
+    maximum: 999999
+  page:
+    type: integer
+    required: false
+    description: С какой страницы начать выборку
+    minimum: 1
+    default: 1
+  sort:
+    type: string
+    required: false
+    description: |
+      Сортировка списка по полям. Для обратной сортировки нужно поставить знак минуса перед названием поля, например: ``-position``
+    example: position,-date_change
