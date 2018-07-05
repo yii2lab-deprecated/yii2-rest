@@ -4,8 +4,17 @@ namespace yii2lab\rest\domain\helpers;
 
 use Yii;
 use yii\helpers\Inflector;
+use yii\web\ServerErrorHttpException;
 
 class MiscHelper {
+	
+	static function matchEntityId($response) {
+		if (preg_match('#\/(\d+)$#', $response->headers['location'], $matches)) {
+			return $matches[1];
+		} else {
+			throw new ServerErrorHttpException('Response header location not found!');
+		}
+	}
 	
 	static function setHttp201($uri, $apiVersion = API_VERSION_STRING) {
 		Yii::$app->response->statusCode = 201;
