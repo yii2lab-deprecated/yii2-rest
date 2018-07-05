@@ -7,6 +7,12 @@ use yii\helpers\Inflector;
 
 class MiscHelper {
 	
+	static function setHttp201($uri, $apiVersion = API_VERSION_STRING) {
+		Yii::$app->response->statusCode = 201;
+		$url = env('url.api') . $apiVersion . SL . $uri;
+		Yii::$app->response->headers->add('Location', $url);
+	}
+	
 	static function currentApiVersion() {
 		preg_match('#/v(\d)/#', Yii::$app->request->url, $matches);
 		$apiVersion = $matches[1];
