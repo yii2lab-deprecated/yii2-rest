@@ -1,11 +1,9 @@
 type: x-custom
-#description: Авторизация с помощью TPS-сервера
+#description: Авторизация по токену
 describedBy:
     headers:
         Authorization:
-            #description: |
-            #    Токен выглядит так:
-            #    ``c0bec554c5dda6a9cefc06dd6d65d3de``
+            description: Авторизация по токену
             type: string
             example: "c0bec554c5dda6a9cefc06dd6d65d3de"
     responses:

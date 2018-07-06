@@ -4,8 +4,23 @@ namespace yii2lab\rest\domain\helpers;
 
 use Yii;
 use yii\helpers\Inflector;
+use yii\helpers\Url;
 
 class MiscHelper {
+	
+	static function forgeApiUrl($uri = null, $apiVersion = API_VERSION) {
+		$apiUrl = self::getBaseApiUrl($apiVersion);
+		if(!empty($uri)) {
+			$apiUrl .= SL . $uri;
+		}
+		return Url::to($apiUrl);
+	}
+	
+	static function getBaseApiUrl($apiVersion = API_VERSION) {
+		$apiVersionString = is_numeric($apiVersion) ? 'v' . $apiVersion : $apiVersion;
+		$baseUrl = env('url.api') . $apiVersionString;
+		return $baseUrl;
+	}
 	
 	static function setHttp201($uri, $apiVersion = API_VERSION_STRING) {
 		Yii::$app->response->statusCode = 201;
