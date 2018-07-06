@@ -8,8 +8,8 @@ use yii\web\ServerErrorHttpException;
 
 class MiscHelper {
 	
-	static function matchEntityId($response) {
-		if (preg_match('#\/(\d+)$#', $response->headers['location'], $matches)) {
+	static function matchEntityId($response, $exp = '\/(\d+)$') {
+		if (preg_match('#' . $exp . '#', $response->headers['location'], $matches)) {
 			return $matches[1];
 		} else {
 			throw new ServerErrorHttpException('Response header location not found!');
