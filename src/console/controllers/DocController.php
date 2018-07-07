@@ -16,7 +16,7 @@ class DocController extends Controller {
 	/**
 	 * Generate API documentation
 	 */
-	public function actionGenerate($version = 5) {
+	public function actionGenerate() {
 		$versionList = ApiVersionEnum::getApiVersionNumberList();
 		$versionList = array_combine($versionList, $versionList);
 		$selected = Select::display('Select package', $versionList);
