@@ -60,20 +60,26 @@ use yii\web\Response;
 
             <div id="response-body" class="tab-pane">
                 <?php
-                $contentType = !empty($record->headers['Content-Type']) ? $record->headers['Content-Type'][0] : '';
-                $formatterConfig = 'yii2lab\rest\web\formatters\RawFormatter';
-                foreach ($this->context->module->formatters as $mimeType => $config) {
-                    if (strpos($contentType, $mimeType) === 0) {
-                        $formatterConfig = $config;
-                        break;
-                    }
+                if($frame) {
+	                echo '<iframe src="'.$frame.'" width="468" height="60" align="left"></iframe>';
+	               
+                } else {
+	                $contentType = !empty($record->headers['Content-Type']) ? $record->headers['Content-Type'][0] : '';
+	                $formatterConfig = 'yii2lab\rest\web\formatters\RawFormatter';
+	                foreach ($this->context->module->formatters as $mimeType => $config) {
+		                if (strpos($contentType, $mimeType) === 0) {
+			                $formatterConfig = $config;
+			                break;
+		                }
+	                }
+	                /** @var \yii2lab\rest\web\formatters\RawFormatter $formatter */
+	                $formatter = \Yii::createObject($formatterConfig);
+	                echo $formatter->format($record);
+	                \yii2lab\rest\web\HighlightAsset::register($this);
+	                $this->registerJs('hljs.highlightBlock(document.getElementById("response-content"));');
+	                $this->registerCss('pre code.hljs {background: transparent}');
                 }
-                /** @var \yii2lab\rest\web\formatters\RawFormatter $formatter */
-                $formatter = \Yii::createObject($formatterConfig);
-                echo $formatter->format($record);
-                \yii2lab\rest\web\HighlightAsset::register($this);
-                $this->registerJs('hljs.highlightBlock(document.getElementById("response-content"));');
-                $this->registerCss('pre code.hljs {background: transparent}');
+               
                 ?>
             </div><!-- #response-body -->
 

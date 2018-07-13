@@ -28,6 +28,7 @@ if ($model->method) {
             ]) ?>
             <?= $this->render('_response', [
                 'record' => $record,
+	            'frame' => $frame,
             ]) ?>
 
         </div>

@@ -6,6 +6,7 @@ use Yii;
 use yii\web\Controller;
 use yii2lab\helpers\yii\ArrayHelper;
 use yii2lab\rest\domain\entities\RestEntity;
+use yii2lab\rest\web\helpers\AdapterHelper;
 use yii2lab\rest\web\helpers\CollectionHelper;
 use yii2lab\rest\web\helpers\RestHelper;
 use yii2lab\rest\web\models\RequestForm;
@@ -57,12 +58,27 @@ class RequestController extends Controller
 	    $collection = ArrayHelper::index($collection, 'tag');
 	
 	    $collection = CollectionHelper::prependCollection($collection);
-
+	
+	    $frame = null;
+	    $contentDisposition = ArrayHelper::getValue($record->headers,  'Content-Disposition');
+	    if($contentDisposition != null) {
+	    	$ee = explode(';', $contentDisposition[0]);
+	    	if($ee[0] == 'attachment') {
+			    Yii::$app->response->headers->fromArray($record->headers);
+			    return $record->content;
+		    } /*elseif($ee[0] == 'inline') {
+			    $requestEntity = AdapterHelper::createRequestEntityFromForm($model);
+			    $requestEntity->headers['Authorization'] = ;
+			    //prr($requestEntity,1,1);
+			    $frame = $this->module->baseUrl . SL . $requestEntity->uri;
+		    }*/
+	    }
         return $this->render('create', [
             'tag' => $tag,
             'baseUrl' => rtrim($this->module->baseUrl, '/') . '/',
             'model' => $model,
             'record' => $record,
+	        'frame' => $frame,
             'history' => $history,
             'collection' => $collection,
         ]);
