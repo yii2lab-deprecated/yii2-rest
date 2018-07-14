@@ -1,4 +1,4 @@
-Набор базовых классов для API
+REST API
 ===
 
 ## Руководство
@@ -22,4 +22,4 @@
 
 ## Rest API
 
-* [CRUD](api-crud.md)
+* [CRUD-операции](api-crud.md)
