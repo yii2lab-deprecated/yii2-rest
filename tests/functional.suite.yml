@@ -1,0 +1,16 @@
+class_name: FunctionalTester
+modules:
+    enabled:
+      - PhpBrowser
+      - Filesystem
+      - REST
+      - Asserts
+      - Yii2:
+            part: [orm, fixtures, email]
+
+    config:
+      PhpBrowser:
+        url: 'http://api.core.yii/'
+      REST:
+        depends: PhpBrowser
+        url: 'http://api.core.yii/'
