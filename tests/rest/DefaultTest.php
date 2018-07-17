@@ -5,13 +5,6 @@ namespace tests\rest;
 use api\enums\ApiVersionEnum;
 use yii2lab\test\Test\Rest;
 
-/**
- * Class DefaultTest
- *
- * @package tests\rest
- *
- * @property \RestTester $tester
- */
 class DefaultTest extends Rest {
 	
 	protected $version = ApiVersionEnum::VERSION_DEFAULT;
