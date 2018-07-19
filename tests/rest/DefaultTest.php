@@ -10,7 +10,7 @@ class DefaultTest extends Rest {
 	protected $version = ApiVersionEnum::VERSION_DEFAULT;
 	
 	public function testMainPage() {
-		$this->tester->sendGET($this->url());
+		$this->tester->sendGET(env('url.api'));
 		$this->tester->seeResponseCodeIs(400);
 		
 		$expectedBody = [
