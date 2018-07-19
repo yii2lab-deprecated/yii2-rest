@@ -14,6 +14,10 @@ class ActiveControllerWithQuery extends Controller {
 				'class' => 'yii2lab\rest\domain\rest\IndexActionWithQuery',
 				'serviceMethod' => !empty($this->usePagination) ? 'getDataProvider' : 'findAll',
 			],
+			'search' => [
+				'class' => 'yii2lab\rest\domain\rest\SearchAction',
+				'fields' => $this->searchFields(),
+			],
 			'create' => [
 				'class' => 'yii2lab\rest\domain\rest\CreateAction',
 			],
@@ -34,12 +38,17 @@ class ActiveControllerWithQuery extends Controller {
 	protected function verbs() {
 		return [
 			'index' => ['GET', 'HEAD'],
+			'search' => ['POST'],
 			'view' => ['GET', 'HEAD'],
 			'create' => ['POST'],
 			'update' => ['PUT', 'PATCH'],
 			'delete' => ['DELETE'],
 			'options' => ['OPTIONS'],
 		];
+	}
+	
+	public function searchFields() {
+		return [];
 	}
 	
 	public function actionOptions() {
