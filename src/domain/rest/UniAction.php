@@ -14,7 +14,7 @@ class UniAction extends BaseAction {
 		return $this->responseToArray($response);
 	}
 	
-	private function responseToArray($response) {
+	protected function responseToArray($response) {
 		$response = !empty($response) ? $response : [];
 		return $response;
 	}
