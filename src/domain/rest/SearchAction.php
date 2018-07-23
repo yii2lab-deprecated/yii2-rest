@@ -7,10 +7,6 @@ use yii2lab\domain\services\base\BaseActiveService;
 use yii2lab\helpers\ClientHelper;
 
 /**
- * Class ServiceController
- *
- * @package yii2woop\service\api\v3\controllers
- *
  * @property BaseActiveService $service
  */
 class SearchAction extends IndexAction {

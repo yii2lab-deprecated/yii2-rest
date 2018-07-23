@@ -38,7 +38,7 @@ class DefaultTest extends Rest {
 		}
 	}
 	
-	public function testAuth() {
+	/*public function testAuth() {
 		$this->tester->sendGET($this->url . 'auth');
 		$this->tester->seeResponseCodeIs(401);
 	}
@@ -51,6 +51,6 @@ class DefaultTest extends Rest {
 	public function testBadAuth() {
 		$this->tester->sendPOST($this->url . 'auth', ['login'=>'77771111111', 'password'=>'Wwwqqq222']);
 		$this->tester->seeResponseCodeIs(422);
-	}
+	}*/
 	
 }
