@@ -72,7 +72,7 @@ pause
 title: '.Yii::$app->name.'
 version: v' . $version . '
 protocols: [ HTTP, HTTPS ]
-baseUri: ' . ApiDocEnum::EXAMPLE_DOMAIN . '/{version}
+baseUri: ' . ApiDocEnum::EXAMPLE_DOMAIN . '/v' . $version . '
 
 mediaType: [ application/json, application/xml ]
 
