@@ -6,7 +6,9 @@ use Yii;
 use yii\rest\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
+use yii2lab\app\domain\helpers\EnvService;
 use yii2lab\helpers\yii\FileHelper;
+use yii2lab\rest\domain\enums\ApiDocEnum;
 use yii2lab\rest\domain\helpers\MiscHelper;
 use yii2lab\rest\domain\helpers\postman\PostmanHelper;
 use yii2lab\rest\domain\helpers\RouteHelper;
@@ -35,6 +37,7 @@ class DocController extends Controller
 	public function actionHtml() {
 		Yii::$app->response->format = Response::FORMAT_HTML;
 		$content = FileHelper::load(API_DIR . DS . API_VERSION_STRING . DS . 'docs' . DS . 'dist' . DS . 'index.html');
+		$content = str_replace(ApiDocEnum::EXAMPLE_DOMAIN . SL, EnvService::getUrl(API) . SL, $content);
 		return $content;
 	}
  

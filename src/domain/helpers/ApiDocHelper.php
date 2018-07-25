@@ -7,6 +7,7 @@ use Yii;
 use yii2lab\helpers\ClassHelper;
 use yii2lab\helpers\ModuleHelper;
 use yii2lab\helpers\yii\FileHelper;
+use yii2lab\rest\domain\enums\ApiDocEnum;
 
 class ApiDocHelper {
 	
@@ -71,7 +72,7 @@ pause
 title: '.Yii::$app->name.'
 version: v' . $version . '
 protocols: [ HTTP, HTTPS ]
-baseUri: http://api.test.yii/{version}
+baseUri: ' . ApiDocEnum::EXAMPLE_DOMAIN . '/{version}
 
 mediaType: [ application/json, application/xml ]
 
