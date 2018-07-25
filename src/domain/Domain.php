@@ -7,10 +7,10 @@ use yii2lab\rest\domain\services\RestService;
 
 /**
  * Class Domain
- *
+ * 
  * @package yii2lab\rest\domain
- *
  * @property RestService $rest
+ * @property-read \yii2lab\rest\domain\interfaces\repositories\RepositoriesInterface $repositories
  */
 class Domain extends \yii2lab\domain\Domain {
 	
