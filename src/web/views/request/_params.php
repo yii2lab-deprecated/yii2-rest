@@ -45,9 +45,24 @@ $i = 1;
 // Удаление и добавление строк параметров
 $this->registerJs(<<<'JS'
 
-$('.params-list')
-    .on('focus', 'tr:last input', function() {
-        var curRow = $(this).parents('tr').first();
+window.addRow1 = function(th) {
+	var page = $(th).text();
+	
+	var rows = $('#request-query table tr');
+	
+	
+	var row = $('#request-query table tr:last');
+	var keyInput = row.find('.column-key input');
+	var ValueInput = row.find('.column-value input');
+	
+	keyInput.focus();
+	
+	keyInput.val('page');
+	ValueInput.val(page);
+}
+
+window.addRow2 = function() {
+	var curRow = $(this).parents('tr').first();
         var i = parseInt(curRow.data('index'));
         var newRow = curRow.clone();
         newRow.attr('data-index', i + 1);
@@ -59,7 +74,10 @@ $('.params-list')
         });
         newRow.insertAfter(curRow);
         updateCounter($(this).parents('.tab-pane').first());
-    })
+}
+
+$('.params-list')
+    .on('focus', 'tr:last input', window.addRow2)
     .on('blur', 'tr input', function() {
         updateCounter($(this).parents('.tab-pane').first());
     })

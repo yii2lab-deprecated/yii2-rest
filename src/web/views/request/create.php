@@ -1,5 +1,8 @@
 <?php
+
+use yii\data\Pagination;
 use yii\helpers\Html;
+use yii\widgets\LinkPager;
 
 /**
  * @var \yii\web\View $this
@@ -26,6 +29,25 @@ if ($model->method) {
                 'baseUrl' => $baseUrl,
                 'model' => $model,
             ]) ?>
+            <?
+
+            if(isset($record->headers['X-Pagination-Total-Count'][0])) {
+	            $pages = new Pagination([
+		            'totalCount' => $record->headers['X-Pagination-Total-Count'][0],
+		            'pageSize' => $record->headers['X-Pagination-Per-Page'][0],
+		            'pageSizeParam' => false,
+		            'forcePageParam' => false,
+	            ]);
+	            echo LinkPager::widget([
+		            'pagination' => $pages,
+		            'linkOptions' => [
+			            'onclick' => 'window.addRow1(this); return false',
+			            'href' => 'javascript:return false',
+		            ],
+	            ]);
+            }
+           
+             ?>
             <?= $this->render('_response', [
                 'record' => $record,
 	            'frame' => $frame,
