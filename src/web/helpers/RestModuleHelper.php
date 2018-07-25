@@ -5,6 +5,7 @@ namespace yii2lab\rest\web\helpers;
 use common\enums\app\ApiVersionEnum;
 use common\enums\rbac\PermissionEnum;
 use yii\helpers\ArrayHelper;
+use yii2lab\app\domain\helpers\EnvService;
 use yii2lab\helpers\Behavior;
 
 class RestModuleHelper {
@@ -15,7 +16,7 @@ class RestModuleHelper {
 		foreach($apiVersionList as $version) {
 			$config[ 'rest-' . $version ] = [
 				'class' => 'yii2lab\rest\web\Module',
-				'baseUrl' => env('url.api') . $version,
+				'baseUrl' => EnvService::getUrl('api', $version),
 				'as access' => Behavior::access(PermissionEnum::REST_CLIENT_ALL),
 			];
 		}

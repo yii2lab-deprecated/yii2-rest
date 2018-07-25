@@ -3,6 +3,7 @@
 namespace tests\rest;
 
 use api\enums\ApiVersionEnum;
+use yii2lab\app\domain\helpers\EnvService;
 use yii2lab\test\Test\Rest;
 
 class DefaultTest extends Rest {
@@ -10,7 +11,7 @@ class DefaultTest extends Rest {
 	protected $version = ApiVersionEnum::VERSION_DEFAULT;
 	
 	public function testMainPage() {
-		$this->tester->sendGET(env('url.api'));
+		$this->tester->sendGET(EnvService::getUrl(API));
 		$this->tester->seeResponseCodeIs(400);
 		
 		$expectedBody = [

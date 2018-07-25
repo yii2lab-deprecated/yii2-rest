@@ -6,6 +6,7 @@ use Yii;
 use yii\helpers\Inflector;
 use yii\helpers\Url;
 use yii\web\ServerErrorHttpException;
+use yii2lab\app\domain\helpers\EnvService;
 
 class MiscHelper {
 	
@@ -19,7 +20,7 @@ class MiscHelper {
 	
 	static function getBaseApiUrl($apiVersion = API_VERSION) {
 		$apiVersionString = is_numeric($apiVersion) ? 'v' . $apiVersion : $apiVersion;
-		$baseUrl = env('url.api') . $apiVersionString;
+		$baseUrl = EnvService::getUrl('api', $apiVersionString);
 		return $baseUrl;
 	}
 	
@@ -33,7 +34,7 @@ class MiscHelper {
 	
 	static function setHttp201($uri, $apiVersion = API_VERSION_STRING) {
 		Yii::$app->response->statusCode = 201;
-		$url = env('url.api') . $apiVersion . SL . $uri;
+		$url = EnvService::getUrl('api', $apiVersion . SL . $uri);
 		Yii::$app->response->headers->add('Location', $url);
 	}
 	
