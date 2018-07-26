@@ -35,9 +35,9 @@ class DocController extends Controller
     }
 	
 	public function actionHtml() {
-		$content = FileHelper::load(API_DIR . DS . API_VERSION_STRING . DS . 'docs' . DS . 'dist' . DS . 'index1.html');
+		$content = FileHelper::load(API_DIR . DS . API_VERSION_STRING . DS . 'docs' . DS . 'dist' . DS . 'index.html');
 		if(empty($content)) {
-			throw new NotFoundHttpException();
+			throw new NotFoundHttpException('Empty document');
 		}
 		Yii::$app->response->format = Response::FORMAT_HTML;
 		$content = str_replace(ApiDocEnum::EXAMPLE_DOMAIN . SL, EnvService::getUrl(API) . SL, $content);
