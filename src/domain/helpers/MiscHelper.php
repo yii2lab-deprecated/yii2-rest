@@ -3,6 +3,7 @@
 namespace yii2lab\rest\domain\helpers;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Inflector;
 use yii\helpers\Url;
 use yii\web\ServerErrorHttpException;
@@ -39,13 +40,16 @@ class MiscHelper {
 	}
 	
 	static function currentApiVersion() {
-		preg_match('#/v(\d)/#', Yii::$app->request->url, $matches);
-		$apiVersion = $matches[1];
+		preg_match('#v(\d)#', Yii::$app->controller->module->id, $matches);
+		$apiVersion = ArrayHelper::getValue($matches, '1');
 		if(!empty($apiVersion)) {
 			return $apiVersion;
 		}
-		preg_match('#v(\d)#', Yii::$app->controller->module->id, $matches);
-		$apiVersion = $matches[1];
+		preg_match('#/v(\d)/#', Yii::$app->request->url, $matches);
+		$apiVersion = ArrayHelper::getValue($matches, '1');
+		if(!empty($apiVersion)) {
+			return $apiVersion;
+		}
 		return $apiVersion;
     }
 	
