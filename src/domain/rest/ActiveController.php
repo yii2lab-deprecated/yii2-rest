@@ -6,13 +6,11 @@ use Yii;
 
 class ActiveController extends Controller {
 	
-	public $usePagination = true;
-	
 	public function actions() {
 		return [
 			'index' => [
 				'class' => 'yii2lab\rest\domain\rest\IndexAction',
-				'serviceMethod' => !empty($this->usePagination) ? 'getDataProvider' : 'findAll',
+				'serviceMethod' => 'getDataProvider',
 			],
 			'create' => [
 				'class' => 'yii2lab\rest\domain\rest\CreateAction',

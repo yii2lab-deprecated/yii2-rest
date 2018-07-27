@@ -3,7 +3,6 @@
 namespace yii2lab\rest\domain\rest;
 
 use Yii;
-use yii2lab\domain\data\Query;
 use yii2lab\domain\services\base\BaseActiveService;
 use yii2lab\helpers\ClientHelper;
 
@@ -17,20 +16,8 @@ class SearchAction extends IndexAction {
 	public function run() {
 		$getParams = Yii::$app->request->get();
 		$query = ClientHelper::getQueryFromRequest($getParams);
-		$title = Yii::$app->request->post('title');
-		if(empty($title) || mb_strlen($title) < 3) {
-			return [];
-		}
-		$likeCondition = $this->generateLikeCondition($title);
-		$query->andWhere($likeCondition);
-		return $this->service->getDataProvider($query);
+		$text = Yii::$app->request->post('title');
+		return $this->service->searchByText($text, $query);
 	}
 
-	private function generateLikeCondition($title) {
-		$q = Query::forge();
-		foreach($this->fields as $key) {
-			$q->orWhere(['ilike', $key, $title]);
-		}
-		return $q->getParam('where');
-	}
 }

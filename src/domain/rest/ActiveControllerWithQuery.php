@@ -6,17 +6,14 @@ use Yii;
 
 class ActiveControllerWithQuery extends Controller {
 	
-	public $usePagination = true;
-	
 	public function actions() {
 		return [
 			'index' => [
 				'class' => 'yii2lab\rest\domain\rest\IndexActionWithQuery',
-				'serviceMethod' => !empty($this->usePagination) ? 'getDataProvider' : 'findAll',
+				'serviceMethod' => 'getDataProvider',
 			],
 			'search' => [
 				'class' => 'yii2lab\rest\domain\rest\SearchAction',
-				'fields' => $this->searchFields(),
 			],
 			'create' => [
 				'class' => 'yii2lab\rest\domain\rest\CreateAction',
@@ -45,10 +42,6 @@ class ActiveControllerWithQuery extends Controller {
 			'delete' => ['DELETE'],
 			'options' => ['OPTIONS'],
 		];
-	}
-	
-	public function searchFields() {
-		return [];
 	}
 	
 	public function actionOptions() {
