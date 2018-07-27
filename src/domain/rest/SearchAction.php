@@ -8,6 +8,8 @@ use yii2lab\helpers\ClientHelper;
 
 /**
  * @property BaseActiveService $service
+ *
+ * @deprecated
  */
 class SearchAction extends IndexAction {
 
@@ -17,7 +19,8 @@ class SearchAction extends IndexAction {
 		$getParams = Yii::$app->request->get();
 		$query = ClientHelper::getQueryFromRequest($getParams);
 		$text = Yii::$app->request->post('title');
-		return $this->service->searchByText($text, $query);
+		$query->where(BaseActiveService::SEARCH_PARAM_NAME, $text);
+		return $this->service->getDataProvider($query);
 	}
 
 }

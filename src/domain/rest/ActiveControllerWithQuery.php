@@ -9,24 +9,24 @@ class ActiveControllerWithQuery extends Controller {
 	public function actions() {
 		return [
 			'index' => [
-				'class' => 'yii2lab\rest\domain\rest\IndexActionWithQuery',
+				'class' => IndexActionWithQuery::class,
 				'serviceMethod' => 'getDataProvider',
 			],
 			'search' => [
-				'class' => 'yii2lab\rest\domain\rest\SearchAction',
+				'class' => SearchAction::class,
 			],
 			'create' => [
-				'class' => 'yii2lab\rest\domain\rest\CreateAction',
+				'class' => CreateAction::class,
 			],
 			'view' => [
-				'class' => 'yii2lab\rest\domain\rest\ViewActionWithQuery',
+				'class' => ViewActionWithQuery::class,
 			],
 			'update' => [
-				'class' => 'yii2lab\rest\domain\rest\UpdateAction',
+				'class' => UpdateAction::class,
 				'serviceMethod' => 'updateById',
 			],
 			'delete' => [
-				'class' => 'yii2lab\rest\domain\rest\DeleteAction',
+				'class' => DeleteAction::class,
 				'serviceMethod' => 'deleteById',
 			],
 		];

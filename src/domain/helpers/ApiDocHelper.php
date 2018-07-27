@@ -82,6 +82,7 @@ securitySchemes:
 
 traits:
   paged:   !include ../../../vendor/yii2lab/yii2-rest/src/domain/docs/traits/paged.raml
+  search:   !include ../../../vendor/yii2lab/yii2-rest/src/domain/docs/traits/search.raml
   lang:    !include ../../../vendor/yii2lab/yii2-rest/src/domain/docs/traits/lang.raml
   fields:  !include ../../../vendor/yii2lab/yii2-rest/src/domain/docs/traits/fields.raml
   expand:  !include ../../../vendor/yii2lab/yii2-rest/src/domain/docs/traits/expand.raml
