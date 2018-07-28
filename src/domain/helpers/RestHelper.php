@@ -3,6 +3,7 @@
 namespace yii2lab\rest\domain\helpers;
 
 use Yii;
+use yii\httpclient\Client;
 use yii\httpclient\Request;
 use yii\httpclient\Response;
 use yii\web\ServerErrorHttpException;
@@ -11,6 +12,11 @@ use yii2lab\misc\enums\HttpMethodEnum;
 use yii2lab\rest\domain\entities\ResponseEntity;
 
 class RestHelper {
+	
+	/**
+	 * @var Client
+	 */
+	private static $_httpClient;
 
     public static function get($uri, array $data = [], array $headers = [], array $options = []) {
         $method = HttpMethodEnum::GET;
@@ -44,7 +50,7 @@ class RestHelper {
 	    $begin = microtime(true);
         try {
 	        $response = $request->send();
-        } catch(\yii\httpclient\Exception $e) {
+        } catch(yii\httpclient\Exception $e) {
             throw new ServerErrorHttpException('Url "' . $request->url . '" is not available', null, $e);
         }
 	    $end = microtime(true);
@@ -58,6 +64,13 @@ class RestHelper {
         return self::sendRequest($requestEntity);
     }
 
+    private static function httpClientInstance() {
+    	if(! self::$_httpClient instanceof Client) {
+		    self::$_httpClient = Yii::createObject('yii\httpclient\Client');
+	    }
+	    return self::$_httpClient;
+    }
+    
     /**
      * @param RequestEntity $requestEntity
      * @return Request
@@ -65,17 +78,14 @@ class RestHelper {
      */
     private static function buildRequestClass(RequestEntity $requestEntity) {
         $requestEntity->validate();
-	    /** @var Request $request */
-	    $request = Yii::$app->httpClient->createRequest();
+	    $request = self::httpClientInstance()->createRequest();
         $request
             ->setOptions($requestEntity->options)
             ->setMethod($requestEntity->method)
             ->setUrl($requestEntity->uri)
             ->setData($requestEntity->data)
             ->setHeaders($requestEntity->headers)
-	        ->setCookies($requestEntity->cookies)
-	        // todo: убрать хардкод
-            ->addHeaders(['user-agent' => 'Awesome-Octocat-App']);
+	        ->setCookies($requestEntity->cookies);
 	    if($requestEntity->format !== null) {
 		    $request->setFormat($requestEntity->format);
 	    }
