@@ -9,36 +9,36 @@ use yii2lab\test\Test\Rest;
 class DefaultTest extends Rest {
 	
 	protected $version = ApiVersionEnum::VERSION_DEFAULT;
-	
-	public function testMainPage() {
-		$this->tester->sendGET(EnvService::getUrl(API));
-		$this->tester->seeResponseCodeIs(400);
-		
-		$expectedBody = [
-			"name" => "Bad Request",
-			"message" => "No API version specified",
-			"code" => 0,
-			"status" => 400,
-			"type" => "Exception",
-			//"versions" => ["1"],
-		];
-		
-		$this->tester->seeResponseContainsJson($expectedBody);
-	}
-	
-	public function testVersionPage() {
-		$versionList = ApiVersionEnum::getApiVersionNumberList();
-		foreach($versionList as $version) {
-			$this->tester->sendGET($this->url('v' . $version));
-			$this->tester->seeResponseCodeIs(200);
-			$expectedBody = [
-				"title" => "string",
-				"header" => "string",
-				"text" => "string",
-			];
-			$this->tester->seeResponseMatchesJsonType($expectedBody);
-		}
-	}
+
+    /*public function testMainPage() {
+        $this->tester->sendGET(null);
+        $this->tester->seeResponseCodeIs(400);
+
+        $expectedBody = [
+            "name" => "Bad Request",
+            "message" => "No API version specified",
+            "code" => 0,
+            "status" => 400,
+            "type" => "Exception",
+            //"versions" => 1"],
+        ];
+
+        $this->tester->seeResponseContainsJson($expectedBody);
+    }
+
+    /*public function testVersionPage() {
+        $versionList = ApiVersionEnum::getApiVersionNumberList();
+        foreach($versionList as $version) {
+            $this->tester->sendGET($this->url('v' . $version));
+            $this->tester->seeResponseCodeIs(200);
+            $expectedBody = [
+                "title" => "string",
+                "header" => "string",
+                "text" => "string",
+            ];
+            $this->tester->seeResponseMatchesJsonType($expectedBody);
+        }
+    }*/
 	
 	/*public function testAuth() {
 		$this->tester->sendGET($this->url . 'auth');
