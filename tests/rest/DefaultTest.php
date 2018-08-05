@@ -2,7 +2,7 @@
 
 namespace tests\rest;
 
-use api\enums\ApiVersionEnum;
+use yii2lab\test\base\_application\common\enums\app\ApiVersionEnum;
 use yii2lab\app\domain\helpers\EnvService;
 use yii2lab\test\Test\Rest;
 
@@ -32,10 +32,11 @@ class DefaultTest extends Rest {
 			$this->tester->sendGET($this->url('v' . $version));
 			$this->tester->seeResponseCodeIs(200);
 			$expectedBody = [
-				"title" => "Главная страница",
-				"header" => "Приветствую!",
+				"title" => "string",
+				"header" => "string",
+				"text" => "string",
 			];
-			$this->tester->seeResponseContainsJson($expectedBody);
+			$this->tester->seeResponseMatchesJsonType($expectedBody);
 		}
 	}
 	
