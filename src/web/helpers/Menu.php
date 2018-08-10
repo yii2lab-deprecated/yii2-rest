@@ -2,10 +2,10 @@
 
 namespace yii2lab\rest\web\helpers;
 
-use common\enums\rbac\PermissionEnum;
 use yii2lab\extension\menu\interfaces\MenuInterface;
 use yii2lab\helpers\ClassHelper;
 use yii2lab\helpers\ModuleHelper;
+use yii2lab\rest\domain\enums\RestPermissionEnum;
 
 class Menu implements MenuInterface {
 	
@@ -24,7 +24,7 @@ class Menu implements MenuInterface {
 		}
 		$item['label'] = 'API';
 		$item['visible'] = YII_ENV_DEV;
-		$item['access'] = [PermissionEnum::REST_CLIENT_ALL];
+		$item['access'] = [RestPermissionEnum::CLIENT_ALL];
 		return $item;
 	}
 	
