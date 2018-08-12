@@ -1,0 +1,3 @@
+(function($){
+    $.domain.account = {};
+})(jQuery);

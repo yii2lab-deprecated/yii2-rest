@@ -29,6 +29,9 @@ class ActiveControllerWithQuery extends Controller {
 				'class' => DeleteAction::class,
 				'serviceMethod' => 'deleteById',
 			],
+            'options' => [
+                'class' => 'yii\rest\OptionsAction',
+            ],
 		];
 	}
 	
