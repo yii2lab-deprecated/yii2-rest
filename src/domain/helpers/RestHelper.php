@@ -103,8 +103,12 @@ class RestHelper {
         foreach($response->headers as $k => $v) {
         	$headers[strtolower($k)] = $v[0];
         }
-    	$responseEntity = new ResponseEntity;
-        $responseEntity->data = $response->data;
+	    $responseEntity = new ResponseEntity;
+        if(!empty($response->format)) {
+	        $responseEntity->data = $response->data;
+        } else {
+	        $responseEntity->data = $response->content;
+        }
         $responseEntity->headers = $headers;
         $responseEntity->content = $response->content;
         $responseEntity->format = $response->format;
