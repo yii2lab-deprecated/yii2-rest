@@ -15,10 +15,6 @@
                 async: false,
             };
             $.domain.rest.request.send(request, localSuccessHandler);
-            /*$.domain.rest.request.post('auth', {
-                login: login,
-                password: password,
-            }, null, localSuccessHandler);*/
         },
         info: function() {
             var successHandler = function (loginEntity) {

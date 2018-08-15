@@ -6,7 +6,6 @@
             if(empty(request)) {
                 return;
             }
-            //console.log(request);
             var ajaxRequest = request;
             if(empty(ajaxRequest.url)) {
                 ajaxRequest.url = $.domain.rest.router.forgeUrl(request.uri);
@@ -15,7 +14,6 @@
                 ajaxRequest.headers = {};
             }
             var token = $.domain.account.token.get();
-            //console.log(token);
             if(!empty(token)) {
                 ajaxRequest.headers.authorization = token;
             }
@@ -23,7 +21,6 @@
 
             if(empty(ajaxRequest.error )) {
                 ajaxRequest.error = function (xhr, ajaxOptions, thrownError) {
-                    //console.log(xhr.status);
                     if(xhr.status == 401) {
                         //$.domain.account.auth.authentication('77771111111', 'Wwwqqq111');
 
@@ -31,12 +28,8 @@
                             url: app.env.url.frontend + 'user/auth/get-token',
                             //async: false,
                             success: function(data) {
-                                //alert(data);
                                 $.domain.account.token.set(data);
-                                //console.log($.domain.account.token.get());
                                 ajaxRequest.error = function (xhr, ajaxOptions, thrownError) {
-                                    // http://extended.tpl/user/auth/logout
-                                    //alert('Token expiried!');
                                     $.ajax({
                                         url: app.env.url.frontend + 'user/auth/logout?redirect=user/auth/login',
                                         method: "post",
@@ -50,8 +43,6 @@
                     }
                 };
             }
-            console.log(ajaxRequest);
-            //$.domain.http.request.send(ajaxRequest, successHandler);
             $.ajax(ajaxRequest);
         },
 
