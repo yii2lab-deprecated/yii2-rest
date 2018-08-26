@@ -30,10 +30,9 @@ class MockService extends BaseActiveService {
         $name = $this->generatePrefix($mockEntity->request);
         $file = COMMON_DATA_DIR . DS . 'rest' . DS . 'mock' . DS . $name . '.php';
         $store = new StoreFile($file);
-        $isHas = FileHelper::has($file);
-        if($isHas) {
-            $mockData = $store->load();
-        } else {
+        $mockData = $store->load();
+        $isHas = !empty($mockData);
+        if(!$isHas) {
             $mockData = $this->getDefaultMockData($mockEntity->request);
         }
         $mockEntity = new MockEntity($mockData);
@@ -65,16 +64,18 @@ class MockService extends BaseActiveService {
         $segments = explode(SL, $requestEntity->uri);
         $prefix = implode(DS, $segments);
         $prefix .= DS . strtolower($requestEntity->method);
-        $prefix .= BL . $this->generateHash($requestEntity);
+        $prefix .= DS . $this->generateHash($requestEntity);
         return $prefix;
     }
 
 	private function generateHash(RequestEntity $requestEntity) {
-        $scope = serialize([
+        $data = [
             $requestEntity->method,
             $requestEntity->uri,
             $requestEntity->data,
-        ]);
+        ];
+        $data = ArrayHelper::sortRecursive($data);
+        $scope = serialize($data);
         $hash = hash(HashAlgoEnum::CRC32B, $scope);
         return $hash;
     }

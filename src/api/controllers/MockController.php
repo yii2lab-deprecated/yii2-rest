@@ -7,6 +7,7 @@ use yii\rest\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use yii2lab\app\domain\helpers\EnvService;
+use yii2lab\helpers\Behavior;
 use yii2lab\helpers\yii\FileHelper;
 use yii2lab\rest\domain\entities\RequestEntity;
 use yii2lab\rest\domain\enums\ApiDocEnum;
@@ -24,7 +25,16 @@ use yii2mod\helpers\ArrayHelper;
  */
 class MockController extends Controller
 {
-	
+
+    /**
+     * @inheritdoc
+     */
+    public function behaviors() {
+        return [
+            'cors' => Behavior::cors(),
+        ];
+    }
+
 	public function init() {
 		if(!$this->module->isEnabledDoc) {
 			throw new NotFoundHttpException('Documentation is disabled');
@@ -54,6 +64,7 @@ class MockController extends Controller
             }
         }
         Yii::$app->response->statusCode = $mockEntity->response->status_code;
+        Yii::$app->response->format = $mockEntity->response->format;
         return $mockEntity->response->data;
     }
 
