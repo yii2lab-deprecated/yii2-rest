@@ -4,6 +4,7 @@ namespace yii2lab\rest\domain\entities;
 
 use yii2lab\domain\BaseEntity;
 use yii2lab\misc\enums\HttpMethodEnum;
+use yii2mod\helpers\ArrayHelper;
 
 /**
  * Class RequestEntity
@@ -51,4 +52,18 @@ class RequestEntity extends BaseEntity {
 	public function getQuery() {
 		return $this->data;
 	}
+
+    public function setHeaders($value) {
+        if($value) {
+            $headers = [];
+            foreach ($value as $key => $value) {
+                if(is_array($value)) {
+                    $headers[$key] = ArrayHelper::first($value);
+                } else {
+                    $headers[$key] = $value;
+                }
+            }
+            $this->headers = $headers;
+        }
+    }
 }
