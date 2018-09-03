@@ -100,7 +100,7 @@ trait RestTrait {
 		} elseif($statusCode == 422) {
 			throw new UnprocessableEntityHttpException();
 		} elseif($statusCode == 404) {
-			throw new NotFoundHttpException(__METHOD__ . ': ' . __LINE__);
+			throw new NotFoundHttpException(get_called_class());
 		}
 	}
 	
