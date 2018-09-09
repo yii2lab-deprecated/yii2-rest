@@ -3,7 +3,7 @@
 namespace yii2lab\rest\web\helpers;
 
 use Yii;
-use yii2lab\helpers\yii\ArrayHelper;
+use yii2lab\extension\yii\helpers\ArrayHelper;
 use yii2lab\rest\domain\helpers\AuthorizationHelper;
 use yii2module\account\domain\v2\entities\LoginEntity;
 

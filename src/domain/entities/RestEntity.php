@@ -4,7 +4,7 @@ namespace yii2lab\rest\domain\entities;
 
 use yii\web\ServerErrorHttpException;
 use yii2lab\domain\BaseEntityWithId;
-use yii2lab\helpers\yii\ArrayHelper;
+use yii2lab\extension\yii\helpers\ArrayHelper;
 
 /**
  * Class RestEntity

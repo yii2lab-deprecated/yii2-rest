@@ -7,7 +7,7 @@ use yii\rest\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use yii2lab\app\domain\helpers\EnvService;
-use yii2lab\helpers\yii\FileHelper;
+use yii2lab\extension\yii\helpers\FileHelper;
 use yii2lab\rest\domain\enums\ApiDocEnum;
 use yii2lab\rest\domain\helpers\MiscHelper;
 use yii2lab\rest\domain\helpers\postman\PostmanHelper;

@@ -6,7 +6,7 @@ use yii2lab\domain\data\Query;
 use yii2lab\domain\services\base\BaseActiveService;
 use yii2lab\extension\encrypt\enums\HashAlgoEnum;
 use yii2lab\extension\code\helpers\generator\EnumGeneratorHelper;
-use yii2lab\helpers\yii\FileHelper;
+use yii2lab\extension\yii\helpers\FileHelper;
 use yii2lab\rest\domain\entities\MockEntity;
 use yii2lab\rest\domain\entities\RequestEntity;
 use yii2lab\rest\domain\entities\ResponseEntity;

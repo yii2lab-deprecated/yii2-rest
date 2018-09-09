@@ -5,7 +5,7 @@ namespace yii2lab\rest\domain\services;
 use yii\web\NotFoundHttpException;
 use yii2lab\domain\data\Query;
 use yii2lab\domain\services\base\BaseActiveService;
-use yii2lab\helpers\yii\ArrayHelper;
+use yii2lab\extension\yii\helpers\ArrayHelper;
 use yii2lab\rest\domain\entities\RestEntity;
 use yii2lab\rest\domain\helpers\MiscHelper;
 use yii2lab\rest\domain\repositories\ar\RestRepository;
