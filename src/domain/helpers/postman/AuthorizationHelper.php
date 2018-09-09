@@ -3,7 +3,7 @@
 namespace yii2lab\rest\domain\helpers\postman;
 
 use Yii;
-use yii2lab\misc\enums\HttpMethodEnum;
+use yii2lab\extension\web\enums\HttpMethodEnum;
 use yii2lab\rest\domain\entities\RequestEntity;
 use yii2module\account\domain\v2\entities\TestEntity;
 

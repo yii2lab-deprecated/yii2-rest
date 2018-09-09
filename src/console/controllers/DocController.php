@@ -3,10 +3,10 @@
 namespace yii2lab\rest\console\controllers;
 
 use api\enums\ApiVersionEnum;
-use yii2lab\console\base\Controller;
-use yii2lab\console\helpers\input\Select;
+use yii2lab\extension\console\base\Controller;
+use yii2lab\extension\console\helpers\input\Select;
 use yii2lab\rest\domain\helpers\ApiDocHelper;
-use yii2lab\console\helpers\Output;
+use yii2lab\extension\console\helpers\Output;
 
 /**
  * Api Doc module.

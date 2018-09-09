@@ -9,7 +9,7 @@ use yii2lab\helpers\yii\ArrayHelper;
 use yii2lab\rest\domain\entities\RestEntity;
 use yii2lab\rest\domain\helpers\MiscHelper;
 use yii2lab\rest\domain\repositories\ar\RestRepository;
-use yii2lab\store\StoreFile;
+use yii2lab\extension\store\StoreFile;
 
 /**
  * Class RestService

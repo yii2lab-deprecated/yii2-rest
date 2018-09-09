@@ -3,7 +3,7 @@
 namespace yii2lab\rest\domain\entities;
 
 use yii2lab\domain\BaseEntity;
-use yii2lab\misc\enums\HttpMethodEnum;
+use yii2lab\extension\web\enums\HttpMethodEnum;
 
 /**
  * Class RequestEntity

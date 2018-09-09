@@ -2,7 +2,7 @@
 
 namespace yii2lab\rest\web\helpers;
 
-use yii2lab\misc\enums\HttpHeaderEnum;
+use yii2lab\extension\web\enums\HttpHeaderEnum;
 use yii2lab\rest\domain\entities\RequestEntity;
 use yii2lab\rest\web\models\RequestForm;
 

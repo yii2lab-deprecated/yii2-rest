@@ -3,7 +3,7 @@
 namespace yii2lab\rest\domain\helpers;
 
 use yii2lab\helpers\yii\ArrayHelper;
-use yii2lab\misc\enums\HttpHeaderEnum;
+use yii2lab\extension\web\enums\HttpHeaderEnum;
 use yii2lab\rest\domain\entities\ResponseEntity;
 
 class AuthorizationHelper {

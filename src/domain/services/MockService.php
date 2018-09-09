@@ -5,12 +5,12 @@ namespace yii2lab\rest\domain\services;
 use yii2lab\domain\data\Query;
 use yii2lab\domain\services\base\BaseActiveService;
 use yii2lab\extension\encrypt\enums\HashAlgoEnum;
-use yii2lab\helpers\generator\EnumGeneratorHelper;
+use yii2lab\extension\code\helpers\generator\EnumGeneratorHelper;
 use yii2lab\helpers\yii\FileHelper;
 use yii2lab\rest\domain\entities\MockEntity;
 use yii2lab\rest\domain\entities\RequestEntity;
 use yii2lab\rest\domain\entities\ResponseEntity;
-use yii2lab\store\StoreFile;
+use yii2lab\extension\store\StoreFile;
 use yii2mod\helpers\ArrayHelper;
 
 class MockService extends BaseActiveService {
