@@ -27,7 +27,7 @@ class RouteHelper
 	
     public static function allFromRestClient($version = null) {
 	    /** @var RestEntity[] $collection */
-	    $collection = Yii::$domain->rest->repositories->rest->allFavorite($version);
+	    $collection = \App::$domain->rest->repositories->rest->allFavorite($version);
         $list = [];
         foreach ($collection as $favorite) {
             $group = self::getGroup($favorite->endpoint);

@@ -57,7 +57,7 @@ class MockController extends Controller
     }
 
     private function forgeApiResponse(RequestEntity $requestEntity) {
-        $mockEntity = \Dii::$domain->rest->mock->oneByRequest($requestEntity);
+        $mockEntity = \App::$domain->rest->mock->oneByRequest($requestEntity);
         if($mockEntity->response->headers) {
             foreach ($mockEntity->response->headers as $key => $value) {
                 Yii::$app->response->headers->add($key, $value);

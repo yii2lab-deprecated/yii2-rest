@@ -36,15 +36,15 @@ class CollectionController extends Controller
 
     public function actionLink($tag)
     {
-	    Yii::$domain->rest->rest->addToCollection($tag);
-	    Yii::$domain->navigation->alert->create('Request was added to collection successfully.', Alert::TYPE_SUCCESS);
+	    \App::$domain->rest->rest->addToCollection($tag);
+	    \App::$domain->navigation->alert->create('Request was added to collection successfully.', Alert::TYPE_SUCCESS);
 	    return $this->redirect(['request/create', 'tag' => $tag]);
     }
 
     public function actionUnlink($tag)
     {
-	    Yii::$domain->rest->rest->removeByTag($tag);
-	    Yii::$domain->navigation->alert->create('Request was removed from collection successfully.', Alert::TYPE_SUCCESS);
+	    \App::$domain->rest->rest->removeByTag($tag);
+	    \App::$domain->navigation->alert->create('Request was removed from collection successfully.', Alert::TYPE_SUCCESS);
 	    return $this->redirect(['request/create']);
     }
 	

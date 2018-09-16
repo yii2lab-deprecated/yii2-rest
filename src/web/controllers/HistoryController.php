@@ -35,15 +35,15 @@ class HistoryController extends Controller
     }
     public function actionDelete($tag)
     {
-	    Yii::$domain->rest->rest->removeByTag($tag);
-	    Yii::$domain->navigation->alert->create('Request was removed from history successfully.', Alert::TYPE_SUCCESS);
+	    \App::$domain->rest->rest->removeByTag($tag);
+	    \App::$domain->navigation->alert->create('Request was removed from history successfully.', Alert::TYPE_SUCCESS);
 	    return $this->redirect(['request/create']);
     }
 
     public function actionClear()
     {
-	    Yii::$domain->rest->rest->clearHistory();
-    	Yii::$domain->navigation->alert->create('History was cleared successfully.', Alert::TYPE_SUCCESS);
+	    \App::$domain->rest->rest->clearHistory();
+    	\App::$domain->navigation->alert->create('History was cleared successfully.', Alert::TYPE_SUCCESS);
         return $this->redirect(['request/create']);
     }
 }

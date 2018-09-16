@@ -35,7 +35,7 @@ class RequestController extends Controller
 	    $record = new ResponseRecord();
         if($tag !== null) {
 	        /** @var RestEntity $restEntity */
-	        $restEntity = Yii::$domain->rest->rest->oneByTag($tag);
+	        $restEntity = \App::$domain->rest->rest->oneByTag($tag);
 	        $model->setAttributes($restEntity->request);
         } elseif(Yii::$app->request->isPost) {
 	        $model->load(Yii::$app->request->post());
@@ -45,14 +45,14 @@ class RequestController extends Controller
 			        'module_id' => $this->module->id,
 			        'request' => $model->toArray(),
 		        ];
-		        $restEntity = Yii::$domain->rest->rest->createOrUpdate($data);
+		        $restEntity = \App::$domain->rest->rest->createOrUpdate($data);
 		        $tag = $restEntity->tag;
 	        }
         }
 	
 	    $model->addEmptyRows();
-	    $history = Yii::$domain->rest->rest->allHistory();
-        $collection = Yii::$domain->rest->rest->allFavorite();
+	    $history = \App::$domain->rest->rest->allHistory();
+        $collection = \App::$domain->rest->rest->allFavorite();
 	
 	    $history = ArrayHelper::index($history, 'tag');
 	    $collection = ArrayHelper::index($collection, 'tag');

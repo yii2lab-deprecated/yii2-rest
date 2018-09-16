@@ -50,14 +50,14 @@ class DocController extends Controller
 	}
 	
 	public function actionNormalizeCollection() {
-		Yii::$domain->rest->rest->normalizeTag();
+		\App::$domain->rest->rest->normalizeTag();
 	}
 	
 	public function actionExportCollection() {
-		Yii::$domain->rest->rest->exportCollection();
+		\App::$domain->rest->rest->exportCollection();
 	}
 	
 	public function actionImportCollection() {
-		Yii::$domain->rest->rest->importCollection();
+		\App::$domain->rest->rest->importCollection();
 	}
 }

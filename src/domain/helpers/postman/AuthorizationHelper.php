@@ -12,7 +12,7 @@ class AuthorizationHelper {
 	public static function genAuthCollection() {
 		$items = [];
 		/** @var TestEntity[] $loginList */
-		$loginList = Yii::$domain->account->test->all();
+		$loginList = \App::$domain->account->test->all();
 		foreach($loginList as $testEntity) {
 			$requestEntity = self::genAuthRequestEntity($testEntity);
 			$request = GeneratorHelper::genRequest($requestEntity);
