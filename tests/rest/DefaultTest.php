@@ -26,7 +26,7 @@ class DefaultTest extends Rest {
         $this->tester->seeResponseContainsJson($expectedBody);
     }
 
-    /*public function testVersionPage() {
+    public function testVersionPage() {
         $versionList = ApiVersionEnum::getApiVersionNumberList();
         foreach($versionList as $version) {
             $this->tester->sendGET($this->url('v' . $version));
