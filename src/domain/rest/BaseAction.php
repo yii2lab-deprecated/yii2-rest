@@ -4,9 +4,6 @@ namespace yii2lab\rest\domain\rest;
 
 use Yii;
 use yii\base\Action;
-use yii2lab\domain\enums\EventEnum;
-use yii2lab\extension\web\enums\ActionEventEnum;
-use yii2lab\extension\web\events\ActionEvent;
 use yii2lab\extension\web\helpers\ControllerHelper;
 
 /**
@@ -34,7 +31,7 @@ class BaseAction extends Action {
 	
 	protected function callActionTrigger($eventName, $data = null) {
 		$event = ControllerHelper::runActionTrigger($this, $eventName, $data);
-		return $event->content;
+		return $event->result;
 	}
 	
 	protected function runServiceMethod() {
