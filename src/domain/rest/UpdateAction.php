@@ -3,6 +3,7 @@
 namespace yii2lab\rest\domain\rest;
 
 use Yii;
+use yii2lab\extension\web\enums\ActionEventEnum;
 
 class UpdateAction extends BaseAction {
 
@@ -11,6 +12,9 @@ class UpdateAction extends BaseAction {
 	
 	public function run($id) {
 		$body = Yii::$app->request->getBodyParams();
-		return $this->runServiceMethod($id, $body);
+		$body = $this->callActionTrigger(ActionEventEnum::BEFORE_WRITE, $body);
+		$response = $this->runServiceMethod($id, $body);
+		$response = $this->callActionTrigger(ActionEventEnum::AFTER_WRITE, $response);
+		return $response;
 	}
 }
