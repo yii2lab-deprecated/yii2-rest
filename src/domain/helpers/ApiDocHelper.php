@@ -4,7 +4,7 @@ namespace yii2lab\rest\domain\helpers;
 
 use League\Flysystem\File;
 use Yii;
-use yii2lab\helpers\ClassHelper;
+use yii2lab\extension\common\helpers\ClassHelper;
 use yii2lab\helpers\ModuleHelper;
 use yii2lab\extension\yii\helpers\FileHelper;
 use yii2lab\rest\domain\enums\ApiDocEnum;
