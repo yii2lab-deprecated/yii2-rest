@@ -8,7 +8,7 @@ use yii\web\NotFoundHttpException;
 use yii\web\ServerErrorHttpException;
 use yii\web\UnauthorizedHttpException;
 use yii\web\UnprocessableEntityHttpException;
-use yii2lab\helpers\UrlHelper;
+use yii2lab\extension\common\helpers\UrlHelper;
 use yii2lab\extension\web\enums\HttpMethodEnum;
 use yii2lab\rest\domain\entities\RequestEntity;
 use yii2lab\rest\domain\entities\ResponseEntity;
