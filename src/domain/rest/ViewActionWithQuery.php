@@ -2,6 +2,7 @@
 
 namespace yii2lab\rest\domain\rest;
 
+use Yii;
 use yii2lab\extension\web\enums\ActionEventEnum;
 use yii2lab\helpers\ClientHelper;
 
@@ -11,7 +12,9 @@ class ViewActionWithQuery extends BaseAction {
 	
 	public function run($id) {
 		$this->callActionTrigger(ActionEventEnum::BEFORE_READ);
-		$query = ClientHelper::getQueryFromRequest();
+		$queryParams = Yii::$app->request->get();
+		unset($queryParams['id']);
+		$query = ClientHelper::getQueryFromRequest($queryParams);
 		$response = $this->runServiceMethod($id, $query);
 		$response = $this->callActionTrigger(ActionEventEnum::AFTER_READ, $response);
 		return $response;
