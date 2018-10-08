@@ -4,7 +4,7 @@ namespace yii2lab\rest\web\controllers;
 
 use Yii;
 use yii\web\Controller;
-use yii2lab\helpers\Behavior;
+use yii2lab\extension\web\helpers\Behavior;
 use yii2lab\navigation\domain\widgets\Alert;
 use yii2lab\rest\domain\helpers\MiscHelper;
 use yii2lab\rest\domain\helpers\postman\PostmanHelper;
