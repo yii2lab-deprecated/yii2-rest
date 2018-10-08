@@ -5,6 +5,7 @@ namespace yii2lab\rest\domain\rest;
 use Yii;
 use yii\base\Action;
 use yii2lab\extension\web\helpers\ControllerHelper;
+use yii2lab\extension\web\traits\ActionEventTrait;
 
 /**
  * Class BaseAction
@@ -15,6 +16,8 @@ use yii2lab\extension\web\helpers\ControllerHelper;
  */
 class BaseAction extends Action {
 
+	use ActionEventTrait;
+	
 	public $service;
 	public $serviceMethod;
 	public $serviceMethodParams = [];
@@ -27,11 +30,6 @@ class BaseAction extends Action {
 	public function init() {
 		parent::init();
 		$this->service = ControllerHelper::forgeService($this->getService());
-	}
-	
-	protected function callActionTrigger($eventName, $data = null) {
-		$event = ControllerHelper::runActionTrigger($this, $eventName, $data);
-		return $event->result;
 	}
 	
 	protected function runServiceMethod() {
