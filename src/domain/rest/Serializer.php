@@ -4,6 +4,7 @@ namespace yii2lab\rest\domain\rest;
 
 use Yii;
 use yii\data\Pagination;
+use yii2lab\extension\develop\helpers\Debug;
 use yii2lab\helpers\TypeHelper;
 use yii\rest\Serializer as YiiSerializer;
 
@@ -26,6 +27,20 @@ class Serializer extends YiiSerializer {
 			$item = TypeHelper::serialize($item, $this->format);
 		}
 		return $models;
+	}
+
+	private function addRuntimeHeader() {
+		if(!YII_ENV_DEV) {
+			return;
+		}
+		$runtime = Debug::getRuntime();
+		$headers = $this->response->getHeaders();
+		$headers->set('X-Runtime', $runtime . ' s');
+	}
+	
+	public function serialize($data) {
+		$this->addRuntimeHeader();
+		return parent::serialize($data);
 	}
 	
 	protected function addPaginationHeaders($pagination)
