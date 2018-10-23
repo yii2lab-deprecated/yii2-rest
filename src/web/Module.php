@@ -7,6 +7,7 @@ use yii\base\BootstrapInterface;
 use yii\base\InvalidConfigException;
 use yii\web\Application;
 use yii\web\ForbiddenHttpException;
+use yii2lab\domain\helpers\DomainHelper;
 
 /**
  * Class Module
@@ -59,6 +60,14 @@ class Module extends \yii\base\Module implements BootstrapInterface
         'application/xml' => 'yii2lab\rest\web\formatters\XmlFormatter',
         'text/html' => 'yii2lab\rest\web\formatters\HtmlFormatter',
     ];
+	
+	public function init() {
+		DomainHelper::forgeDomains([
+			'rest' => 'yii2lab\rest\domain\Domain',
+		]);
+		parent::init();
+	}
+    
     /**
      * @inheritdoc
      */
