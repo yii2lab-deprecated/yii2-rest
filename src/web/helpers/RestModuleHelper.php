@@ -2,17 +2,17 @@
 
 namespace yii2lab\rest\web\helpers;
 
-use common\enums\app\ApiVersionEnum;
 use yii\helpers\ArrayHelper;
 use yii2lab\app\domain\helpers\EnvService;
 use yii2lab\extension\web\helpers\Behavior;
 use yii2lab\rest\domain\enums\RestPermissionEnum;
+use yii2lab\rest\domain\helpers\MiscHelper;
 
 class RestModuleHelper {
 	
 	public static function getConfig() {
 		$config = [];
-		$apiVersionList = ApiVersionEnum::values();
+		$apiVersionList = MiscHelper::getAllVersions();
 		foreach($apiVersionList as $version) {
 			$config[ 'rest-' . $version ] = [
 				'class' => 'yii2lab\rest\web\Module',

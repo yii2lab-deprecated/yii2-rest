@@ -8,8 +8,24 @@ use yii\helpers\Inflector;
 use yii\helpers\Url;
 use yii\web\ServerErrorHttpException;
 use yii2lab\app\domain\helpers\EnvService;
+use yii2lab\extension\yii\helpers\FileHelper;
 
 class MiscHelper {
+	
+	public static function isValidVersion($value) {
+		return in_array($value, static::getAllVersions());
+	}
+	
+	static function getAllVersions(): array {
+		$dirList = FileHelper::scanDir(ROOT_DIR . DS . API);
+		$versions = [];
+		foreach($dirList as $dir) {
+			if(preg_match('/^v(\d+)$/', $dir, $matches)) {
+				$versions[$matches[0]] = $matches[1];
+			}
+		}
+		return array_flip($versions);
+	}
 	
 	static function forgeApiUrl($uri = null, $apiVersion = API_VERSION) {
 		$apiUrl = self::getBaseApiUrl($apiVersion);
