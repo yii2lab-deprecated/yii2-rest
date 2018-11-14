@@ -4,7 +4,7 @@ namespace yii2lab\rest\web\helpers;
 
 use yii2lab\extension\menu\interfaces\MenuInterface;
 use yii2lab\extension\common\helpers\ClassHelper;
-use yii2lab\helpers\ModuleHelper;
+use yii2lab\extension\common\helpers\ModuleHelper;
 use yii2lab\rest\domain\enums\RestPermissionEnum;
 
 class Menu implements MenuInterface {

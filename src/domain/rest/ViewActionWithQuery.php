@@ -4,7 +4,7 @@ namespace yii2lab\rest\domain\rest;
 
 use Yii;
 use yii2lab\extension\web\enums\ActionEventEnum;
-use yii2lab\helpers\ClientHelper;
+use yii2lab\extension\web\helpers\ClientHelper;
 
 class ViewActionWithQuery extends BaseAction {
 

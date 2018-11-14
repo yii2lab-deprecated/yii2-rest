@@ -8,7 +8,7 @@ use yii2lab\domain\exceptions\UnprocessableEntityHttpException;
 use yii2lab\domain\helpers\ErrorCollection;
 use yii2lab\domain\services\base\BaseActiveService;
 use yii2lab\extension\activeRecord\helpers\SearchHelper;
-use yii2lab\helpers\ClientHelper;
+use yii2lab\extension\web\helpers\ClientHelper;
 
 /**
  * @property BaseActiveService $service

@@ -4,7 +4,7 @@ namespace yii2lab\rest\domain\helpers\postman;
 
 use yii\helpers\Json;
 use yii\web\ServerErrorHttpException;
-use yii2lab\helpers\StringHelper;
+use yii2lab\extension\common\helpers\StringHelper;
 use yii2lab\extension\yii\helpers\ArrayHelper;
 use yii2lab\rest\domain\entities\RequestEntity;
 use yii2lab\rest\domain\helpers\MiscHelper;
