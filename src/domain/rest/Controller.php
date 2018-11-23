@@ -23,11 +23,23 @@ class Controller extends YiiController {
 
 	public function init() {
 		parent::init();
+		$this->initService();
+		$this->initFormat();
+		$this->initBehaviors();
+	}
+	
+	private function initBehaviors() {
+		$controllerBehaviors = param('controllerBehaviors');
+		if($controllerBehaviors) {
+			$this->attachBehaviors($controllerBehaviors);
+		}
+	}
+	
+	private function initService() {
 		if(empty($this->service) && !empty($this->serviceName)) {
 			$this->service = $this->serviceName;
 		}
 		$this->service = ControllerHelper::forgeService($this->service);
-		$this->initFormat();
 	}
 	
 	private function initFormat() {
