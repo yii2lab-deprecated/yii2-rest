@@ -6,7 +6,6 @@ use Yii;
 use yii\web\Controller;
 use yii2lab\extension\yii\helpers\ArrayHelper;
 use yii2lab\rest\domain\entities\RestEntity;
-use yii2lab\rest\web\helpers\AdapterHelper;
 use yii2lab\rest\web\helpers\CollectionHelper;
 use yii2lab\rest\web\helpers\RestHelper;
 use yii2lab\rest\web\models\RequestForm;
