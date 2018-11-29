@@ -101,7 +101,9 @@ class RestService extends BaseActiveService {
 			$entityOld->load($data);
 			$this->update($entityOld);
 		} catch(NotFoundHttpException $e) {
-			$entity = $this->create($entity->toArray());
+			try {
+				$entity = $this->create($entity->toArray());
+			} catch(\yii\db\IntegrityException $e) {}
 		}
 		return $entity;
 	}
