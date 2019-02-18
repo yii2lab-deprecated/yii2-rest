@@ -2,14 +2,21 @@
 
 namespace yii2lab\rest\domain\helpers;
 
+use Yii;
+use yii\httpclient\Client;
+use yii\httpclient\Request;
 use yii\httpclient\Response;
 use yii\web\ServerErrorHttpException;
-use yii\httpclient\Client;
 use yii2lab\rest\domain\entities\RequestEntity;
-use yii2lab\misc\enums\HttpMethodEnum;
+use yii2lab\extension\web\enums\HttpMethodEnum;
 use yii2lab\rest\domain\entities\ResponseEntity;
 
 class RestHelper {
+	
+	/**
+	 * @var Client
+	 */
+	private static $_httpClient;
 
     public static function get($uri, array $data = [], array $headers = [], array $options = []) {
         $method = HttpMethodEnum::GET;
@@ -38,13 +45,17 @@ class RestHelper {
      * @return ResponseEntity
      */
     public static function sendRequest(RequestEntity $requestEntity) {
-        $request = self::buildRequestClass($requestEntity);
+	    /** @var Request $request */
+	    $request = self::buildRequestClass($requestEntity);
+	    $begin = microtime(true);
         try {
-            $response = $request->send();
-        } catch(\yii\httpclient\Exception $e) {
-            throw new ServerErrorHttpException('Url "' . $request->url . '" is not available');
+	        $response = $request->send();
+        } catch(yii\httpclient\Exception $e) {
+            throw new ServerErrorHttpException('Url "' . $request->url . '" is not available', null, $e);
         }
-        return self::buildResponseEntity($response);
+	    $end = microtime(true);
+	    $duration = $end - $begin;
+        return self::buildResponseEntity($response, $duration);
     }
 
     private static function runRequest(array $data) {
@@ -53,23 +64,34 @@ class RestHelper {
         return self::sendRequest($requestEntity);
     }
 
+    private static function httpClientInstance() {
+    	if(! self::$_httpClient instanceof Client) {
+		    self::$_httpClient = Yii::createObject('yii\httpclient\Client');
+	    }
+	    return self::$_httpClient;
+    }
+    
     /**
      * @param RequestEntity $requestEntity
-     * @return \yii\httpclient\Request
+     * @return Request
      * @throws
      */
     private static function buildRequestClass(RequestEntity $requestEntity) {
         $requestEntity->validate();
-        $httpClient = new Client();
-        $request = $httpClient->createRequest();
+	    $request = self::httpClientInstance()->createRequest();
         $request
             ->setOptions($requestEntity->options)
             ->setMethod($requestEntity->method)
             ->setUrl($requestEntity->uri)
             ->setData($requestEntity->data)
             ->setHeaders($requestEntity->headers)
-	        ->setCookies($requestEntity->cookies)
-            ->addHeaders(['user-agent' => 'Awesome-Octocat-App']);
+	        ->setCookies($requestEntity->cookies);
+	    if($requestEntity->format !== null) {
+		    $request->setFormat($requestEntity->format);
+	    }
+		if($requestEntity->content !== null) {
+			$request->setContent($requestEntity->content);
+		}
         return $request;
     }
 
@@ -85,6 +107,7 @@ class RestHelper {
         $responseEntity->format = $response->format;
         $responseEntity->cookies = $response->cookies;
         $responseEntity->status_code = $response->statusCode;
+	    $responseEntity->duration = $duration;
         return $responseEntity;
     }
 
