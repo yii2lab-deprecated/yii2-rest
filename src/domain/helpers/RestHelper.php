@@ -94,15 +94,27 @@ class RestHelper {
 		}
         return $request;
     }
-
-    /**
-     * @param Response $response
-     * @return ResponseEntity
-     */
-    private static function buildResponseEntity(Response $response) {
-        $responseEntity = new ResponseEntity;
-        $responseEntity->data = $response->data;
-        $responseEntity->headers = $response->headers;
+	
+	/**
+	 * @param Response $response
+	 * @param          $duration
+	 *
+	 * @return ResponseEntity
+	 */
+    private static function buildResponseEntity(Response $response, $duration) {
+        $headers = [];
+        foreach($response->headers as $k => $v) {
+        	$headers[strtolower($k)] = $v[0];
+        }
+	    $responseEntity = new ResponseEntity;
+        if(empty($response->format)) {
+			$responseEntity->data = $response->content;
+        } elseif($response->format==  yii\web\Response::FORMAT_XML) {
+			$responseEntity->data = $response->content;
+        } else{
+			$responseEntity->data = $response->data;
+		}
+        $responseEntity->headers = $headers;
         $responseEntity->content = $response->content;
         $responseEntity->format = $response->format;
         $responseEntity->cookies = $response->cookies;
