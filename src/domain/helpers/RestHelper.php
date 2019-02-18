@@ -104,11 +104,13 @@ class RestHelper {
         	$headers[strtolower($k)] = $v[0];
         }
 	    $responseEntity = new ResponseEntity;
-        if(!empty($response->format)) {
-	        $responseEntity->data = $response->data;
-        } else {
-	        $responseEntity->data = $response->content;
-        }
+        if(empty($response->format)) {
+			$responseEntity->data = $response->content;
+        } elseif($response->format==  yii\web\Response::FORMAT_XML) {
+			$responseEntity->data = $response->content;
+        } else{
+			$responseEntity->data = $response->data;
+		}
         $responseEntity->headers = $headers;
         $responseEntity->content = $response->content;
         $responseEntity->format = $response->format;
