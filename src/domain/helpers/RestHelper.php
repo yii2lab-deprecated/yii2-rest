@@ -89,6 +89,9 @@ class RestHelper {
 	    if($requestEntity->format !== null) {
 		    $request->setFormat($requestEntity->format);
 	    }
+		if($requestEntity->content !== null) {
+			$request->setContent($requestEntity->content);
+		}
         return $request;
     }
 	
