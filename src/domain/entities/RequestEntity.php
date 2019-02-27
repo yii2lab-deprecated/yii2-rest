@@ -73,7 +73,7 @@ class RequestEntity extends BaseEntity
 				} else {
 					$headers[$key] = $value;
 				}
-				if (!empty(ContentTriggerHeadersEnum::value($key))) {
+				if (!empty(ContentTriggerHeadersEnum::value($key)) && $headers[$key] == 'application/json') {
 					$this->content = Json::encode($this->data, 0);
 				}
 			}
