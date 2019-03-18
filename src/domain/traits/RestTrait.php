@@ -2,6 +2,7 @@
 
 namespace yii2lab\rest\domain\traits;
 
+use Yii;
 use yii\helpers\ArrayHelper;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
@@ -108,6 +109,10 @@ trait RestTrait {
 		$this->normalizeRequestEntityUrl($requestEntity);
 		if(!empty($this->headers)) {
 			$requestEntity->headers = ArrayHelper::merge($requestEntity->headers, $this->headers);
+		}
+		//todo:header crutch
+		if(!empty(Yii::$app->request->getHeaders()->get('partner-name'))) {
+			$requestEntity->headers = ArrayHelper::merge($requestEntity->headers, ['partner-name' => Yii::$app->request->getHeaders()->get('partner-name')]);
 		}
 		if(!empty($this->options)) {
 			$requestEntity->options = ArrayHelper::merge($requestEntity->options, $this->options);
