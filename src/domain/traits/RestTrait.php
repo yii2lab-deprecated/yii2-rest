@@ -41,8 +41,6 @@ trait RestTrait {
 		$requestEntity->data = $data;
 		$requestEntity->headers = $headers;
 		$requestEntity->options = $options;
-
-		prr($requestEntity,1,1);
 		return $this->sendRequest($requestEntity);
 	}
 	
@@ -68,6 +66,7 @@ trait RestTrait {
 	
 	protected function sendRequest(RequestEntity $requestEntity) {
 		$requestEntity = $this->normalizeRequestEntity($requestEntity);
+		prr($requestEntity,1,1);
 		$responseEntity = RestHelper::sendRequest($requestEntity);
 		$this->handleStatusCode($responseEntity);
 		return $responseEntity;
