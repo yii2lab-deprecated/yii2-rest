@@ -11,6 +11,7 @@ use yii\web\UnauthorizedHttpException;
 use yii\web\UnprocessableEntityHttpException;
 use yii2lab\extension\common\helpers\UrlHelper;
 use yii2lab\extension\web\enums\HttpMethodEnum;
+use yii2lab\extension\web\helpers\ClientHelper;
 use yii2lab\rest\domain\entities\RequestEntity;
 use yii2lab\rest\domain\entities\ResponseEntity;
 use yii2lab\rest\domain\exceptions\UnavailableRestServerHttpException;
@@ -66,6 +67,7 @@ trait RestTrait {
 	
 	protected function sendRequest(RequestEntity $requestEntity) {
 		$requestEntity = $this->normalizeRequestEntity($requestEntity);
+		Yii::warning($requestEntity->headers[ClientHelper::IP_HEADER_KEY],__METHOD__);
 		$responseEntity = RestHelper::sendRequest($requestEntity);
 		$this->handleStatusCode($responseEntity);
 		return $responseEntity;
