@@ -40,6 +40,7 @@ trait RestTrait {
 		$requestEntity->data = $data;
 		$requestEntity->headers = $headers;
 		$requestEntity->options = $options;
+		prr($requestEntity,1,1);
 		return $this->sendRequest($requestEntity);
 	}
 	
