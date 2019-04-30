@@ -90,7 +90,8 @@ trait RestTrait {
 	}
 	
 	protected function showServerException(ResponseEntity $responseEntity) {
-		throw new ServerErrorHttpException();
+		$message = YII_ENV !=YII_ENV_PROD ?   $responseEntity->content : '';
+		throw new ServerErrorHttpException($message);
 	}
 	
 	protected function showUserException(ResponseEntity $responseEntity) {
