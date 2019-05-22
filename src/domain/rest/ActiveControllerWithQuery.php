@@ -15,9 +15,6 @@ class ActiveControllerWithQuery extends Controller {
 				'class' => IndexActionWithQuery::class,
 				'serviceMethod' => 'getDataProvider',
 			],
-			'search' => [
-				'class' => SearchAction::class,
-			],
 			'create' => [
 				'class' => CreateAction::class,
 			],
@@ -41,7 +38,6 @@ class ActiveControllerWithQuery extends Controller {
 	protected function verbs() {
 		return [
 			'index' => ['GET', 'HEAD'],
-			'search' => ['POST'],
 			'view' => ['GET', 'HEAD'],
 			'create' => ['POST'],
 			'update' => ['PUT', 'PATCH'],
