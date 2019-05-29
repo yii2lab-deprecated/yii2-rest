@@ -9,9 +9,10 @@ use yii\web\ServerErrorHttpException;
 use yii\web\UnauthorizedHttpException;
 use yii\web\UnprocessableEntityHttpException;
 use yii2lab\domain\repositories\BaseRepository;
-use yii2lab\misc\enums\HttpMethodEnum;
+
 use yii2lab\rest\domain\entities\RequestEntity;
 use yii2lab\rest\domain\entities\ResponseEntity;
+use yii2lab\rest\domain\enums\HttpMethodEnum;
 use yii2lab\rest\domain\helpers\RestHelper;
 
 abstract class BaseRestRepository extends BaseRepository {
