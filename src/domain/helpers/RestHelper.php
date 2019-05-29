@@ -8,8 +8,8 @@ use yii\httpclient\Request;
 use yii\httpclient\Response;
 use yii\web\ServerErrorHttpException;
 use yii2lab\rest\domain\entities\RequestEntity;
-use yii2lab\extension\web\enums\HttpMethodEnum;
 use yii2lab\rest\domain\entities\ResponseEntity;
+use yii2lab\rest\domain\enums\HttpMethodEnum;
 
 class RestHelper {
 	
