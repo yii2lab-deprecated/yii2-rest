@@ -4,8 +4,8 @@ namespace yii2lab\rest\domain\entities;
 
 use yii\helpers\Json;
 use yii2lab\domain\BaseEntity;
-use yii2lab\extension\web\enums\HttpMethodEnum;
 use yii2lab\rest\domain\enums\ContentTriggerHeadersEnum;
+use yii2lab\rest\domain\enums\HttpMethodEnum;
 use yii2mod\helpers\ArrayHelper;
 
 /**
