@@ -15,6 +15,7 @@ use yii2lab\domain\BaseEntity;
  * @property integer $status_code
  * @property string $format
  * @property boolean $is_ok
+ * @property integer $duration
  */
 class ResponseEntity extends BaseEntity {
 
@@ -24,6 +25,7 @@ class ResponseEntity extends BaseEntity {
     protected $cookies = [];
     protected $status_code = 200;
     protected $format;
+	protected $duration;
 
     public function getIsOk() {
         return strncmp('20', $this->status_code, 2) === 0;
