@@ -21,6 +21,9 @@ class ActiveControllerWithQuery extends Controller {
 			'view' => [
 				'class' => ViewActionWithQuery::class,
 			],
+			'search' => [
+				'class' => SearchAction::class,
+			],
 			'update' => [
 				'class' => UpdateAction::class,
 				'serviceMethod' => 'updateById',
@@ -43,6 +46,7 @@ class ActiveControllerWithQuery extends Controller {
 			'update' => ['PUT', 'PATCH'],
 			'delete' => ['DELETE'],
 			'options' => ['OPTIONS'],
+			'search' => ['POST'],
 		];
 	}
 	
