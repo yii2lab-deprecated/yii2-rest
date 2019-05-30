@@ -49,13 +49,5 @@ class Controller extends YiiController {
 			'format' => $format,
 		];
 	}
-	/**
-	 * {@inheritdoc}
-	 */
-	public function afterAction($action, $result)
-	{
-		header('Access-Control-Allow-Origin: *');
-		$result = parent::afterAction($action, $result);
-		return $this->serializeData($result);
-	}
+
 }
