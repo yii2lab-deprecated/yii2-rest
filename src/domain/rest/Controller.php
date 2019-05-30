@@ -14,9 +14,9 @@ use yii2lab\extension\web\helpers\ControllerHelper;
  * @property null|string|BaseService
  */
 class Controller extends YiiController {
-	
+
 	public $service = null;
-	
+
 	public function format() {
 		return [];
 	}
@@ -27,21 +27,21 @@ class Controller extends YiiController {
 		$this->initFormat();
 		$this->initBehaviors();
 	}
-	
+
 	private function initBehaviors() {
 		$controllerBehaviors = param('controllerBehaviors');
 		if($controllerBehaviors) {
 			$this->attachBehaviors($controllerBehaviors);
 		}
 	}
-	
+
 	private function initService() {
 		if(empty($this->service) && !empty($this->serviceName)) {
 			$this->service = $this->serviceName;
 		}
 		$this->service = ControllerHelper::forgeService($this->service);
 	}
-	
+
 	private function initFormat() {
 		$format = $this->format();
 		$this->serializer = [
@@ -49,5 +49,13 @@ class Controller extends YiiController {
 			'format' => $format,
 		];
 	}
-
+	/**
+	 * {@inheritdoc}
+	 */
+	public function afterAction($action, $result)
+	{
+		header('Access-Control-Allow-Origin: *');
+		$result = parent::afterAction($action, $result);
+		return $this->serializeData($result);
+	}
 }
