@@ -10,6 +10,7 @@ use yii\web\ServerErrorHttpException;
 use yii\web\UnauthorizedHttpException;
 use yii\web\UnprocessableEntityHttpException;
 use yii2lab\extension\common\helpers\UrlHelper;
+use yii2lab\extension\web\enums\HttpHeaderEnum;
 use yii2lab\extension\web\enums\HttpMethodEnum;
 use yii2lab\extension\web\helpers\ClientHelper;
 use yii2lab\rest\domain\entities\RequestEntity;
@@ -113,8 +114,8 @@ trait RestTrait {
 			$requestEntity->headers = ArrayHelper::merge($requestEntity->headers, $this->headers);
 		}
 		//todo:header crutch
-		if(!empty(Yii::$app->request->getHeaders()->get('partner-name'))) {
-			$requestEntity->headers = ArrayHelper::merge($requestEntity->headers, ['partner-name' => Yii::$app->request->getHeaders()->get('partner-name')]);
+		if(!empty(Yii::$app->request->getHeaders()->get(HttpHeaderEnum::PARTNER_NAME))) {
+			$requestEntity->headers = ArrayHelper::merge($requestEntity->headers, [HttpHeaderEnum::PARTNER_NAME => Yii::$app->request->getHeaders()->get(HttpHeaderEnum::PARTNER_NAME)]);
 		}
 		if(!empty($this->options)) {
 			$requestEntity->options = ArrayHelper::merge($requestEntity->options, $this->options);
