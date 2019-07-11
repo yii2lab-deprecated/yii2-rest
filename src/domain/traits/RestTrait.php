@@ -67,6 +67,7 @@ trait RestTrait {
 	
 	protected function sendRequest(RequestEntity $requestEntity) {
 		$requestEntity = $this->normalizeRequestEntity($requestEntity);
+		Yii::warning($requestEntity->uri,__METHOD__);
 		$responseEntity = RestHelper::sendRequest($requestEntity);
 		$this->handleStatusCode($responseEntity);
 		return $responseEntity;
