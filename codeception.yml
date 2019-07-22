@@ -1,4 +1,4 @@
-namespace: "yii2lab\\rest";
+namespace: "yii2lab\\rest"
 paths:
     tests: tests
     log: tests/_output
