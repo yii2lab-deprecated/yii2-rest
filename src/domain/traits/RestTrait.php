@@ -78,6 +78,9 @@ trait RestTrait {
 			if($responseEntity->status_code == 201 || $responseEntity->status_code == 204) {
 				$responseEntity->content = null;
 			}
+			if($responseEntity->status_code == 205) {
+				$responseEntity->content = null;
+			}
 		} else {
 			if($responseEntity->status_code >= 400) {
 				$this->showUserException($responseEntity);
