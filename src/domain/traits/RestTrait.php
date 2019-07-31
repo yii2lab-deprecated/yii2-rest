@@ -75,6 +75,7 @@ trait RestTrait {
 	
 	protected function handleStatusCode(ResponseEntity $responseEntity) {
 		if($responseEntity->is_ok) {
+			Yii::$app->response->statusCode = $responseEntity->status_code;
 			if($responseEntity->status_code == 201 || $responseEntity->status_code == 204) {
 				$responseEntity->content = null;
 			}
