@@ -36,7 +36,7 @@ class MockService extends BaseActiveService {
             $mockData = $this->getDefaultMockData($mockEntity->request);
         }
         $mockEntity = new MockEntity($mockData);
-        if(! $isHas && YII_ENV_DEV) {
+        if(! $isHas && (YII_ENV_DEV || YII_ENV_PRETEST)) {
             $store->save($mockEntity->toArray());
         }
         return $mockEntity;
